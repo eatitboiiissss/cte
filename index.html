@@ -239,61 +239,172 @@
       opacity: 0;
     }
   }
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="styles.css" data-precedence="next" />
+    <title></title>
+    <meta name="description" content="web developer | architecture overlord" />
+    <meta name="author" content="@eatit" />
+    <meta property="og:title" content="@eatit" />
+    <meta property="og:description" content="Owner of dingle.lol" />
+    <meta property="og:image" content="https://uploads.scratch.mit.edu/get_image/user/40434320_512x512.png" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="@eatit" />
+    <meta name="twitter:description" content="Owner of dingle.lol" />
+    <meta name="twitter:image" content="https://uploads.scratch.mit.edu/get_image/user/40434320_512x512.png" />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="stylesheet" data-font="satoshi" href="." />
+    <style data-font="satoshi">
+      body,
+      * {
+        font-family: "Satoshi", sans-serif !important;
+      }
+    </style>
+    <link rel="preload" href="video.mp4" as="video" />
+    <link rel="preload" href="audio.mp3" as="audio" />
+  </head>
 
-  @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-</style>
+  <body>
+    <!-- Video and Audio Elements -->
+    <video src="video.mp4" playsinline loop class="eRb39R_ca56e6cc6120e82558ef"></video>
+    <audio src="audio.mp3" loop></audio>
 
-<script>
-  const NUM_IMAGES = 20; // Number of falling images
-  for (let i = 0; i < NUM_IMAGES; i++) {
-    const img = document.createElement("img");
-    img.src = "dinglenut.png"; // Ensure dinglenut.png is in your project root
-    img.className = "falling-image";
-    img.style.left = Math.random() * 100 + "vw"; // random horizontal position
-    img.style.animationDuration = (Math.random() * 3 + 2) + "s"; // random fall speed
-    img.style.animationDelay = (Math.random() * 5) + "s";
-    document.body.appendChild(img);
-  }
+    <!-- Overlay for clicking to play video and audio -->
+    <div class="bcYWcV_4ac5c10f247eb261df8a al1zmn_90eaf9aaa3c00ed121cd" style="pointer-events: none; display: none;">
+      <div class="bG2N12_dbdc0f63fcf9ce25e8c2" style="font-weight: 700; font-size: 30px;">click to enter</div>
+    </div>
+
+    <!-- Falling Image Styles -->
+    <style>
+      .falling-image-container {
+        position: fixed;
+        top: -100px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 9999;
+        pointer-events: none;
+      }
+
+      .falling-image {
+        width: 66%;
+        animation: fall 5s linear infinite, spin 3s linear infinite;
+        transform-origin: center;
+      }
+
+      @keyframes fall {
+        0% {
+          top: -150px;
+          opacity: 1;
+        }
+        100% {
+          top: 100vh;
+          opacity: 0;
+        }
+      }
+
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+
+    <script>
+      // Overlay click event to start video and audio
+      const overlay = document.querySelector(".bcYWcV_4ac5c10f247eb261df8a");
+      const video = document.querySelector(".eRb39R_ca56e6cc6120e82558ef");
+      const audio = document.querySelector("audio");
+      const content = document.querySelector(".eyN9UZ_85176f7ad5dd05cd2a8a");
+      overlay.style.display = "flex";
+      overlay.style.opacity = "1";
+      overlay.style.pointerEvents = "";
+      content.classList.remove("aw0RW2_13307e85a9f2f85643fd");
+
+      overlay.onclick = function () {
+        overlay.style.opacity = "0";
+        overlay.style.pointerEvents = "none";
+        video.play();
+        audio.play();
+        content.classList.add("aw0RW2_13307e85a9f2f85643fd");
+      };
+
+      // Title animation for @eatit
+      const handle = "@eatit";
+      let i = 1;
+      let reverse = false;
+
+      setInterval(() => {
+        document.title = handle.slice(0, i);
+
+        if (!reverse) {
+          i++;
+          if (i > handle.length) {
+            reverse = true;
+            i = handle.length - 1;
+          }
+        } else {
+          i--;
+          if (i === 0) {
+            reverse = false;
+            i = 1;
+          }
+        }
+      }, 300);
+
+      // Create falling images
+      const NUM_IMAGES = 20;
+      for (let i = 0; i < NUM_IMAGES; i++) {
+        const img = document.createElement("img");
+        img.src = "dinglenut.png"; // Ensure dinglenut.png is in your project root
+        img.className = "falling-image";
+        img.style.left = Math.random() * 100 + "vw";
+        img.style.animationDuration = (Math.random() * 3 + 2) + "s";
+        img.style.animationDelay = (Math.random() * 5) + "s";
+        document.body.appendChild(img);
+      }
     </script>
-</body>
-<div id="members-container" style="position: fixed; bottom: 20px; left: 20px; z-index: 9999;">
-    <button id="members-button" style="
-        background-color: rgba(255,255,255,0.22);
-        border: 2px solid rgba(255,255,255,0.12);
-        border-radius: 12px;
-        color: white;
-        padding: 10px 20px;
-        font-size: 16px;
-        cursor: pointer;
-    ">Members</button>
-    <div id="members-list" style="
-        display: none;
-        margin-top: 10px;
-        background-color: rgba(255, 255, 255, 0.13);
-        border: 2px solid rgba(255, 255, 255, 0.12);
-        border-radius: 12px;
-        padding: 10px;
-        backdrop-filter: blur(3px);
-    ">
+
+    <!-- Members Section -->
+    <div id="members-container" style="position: fixed; bottom: 20px; left: 20px; z-index: 9999;">
+      <button id="members-button" style="
+          background-color: rgba(255,255,255,0.22);
+          border: 2px solid rgba(255,255,255,0.12);
+          border-radius: 12px;
+          color: white;
+          padding: 10px 20px;
+          font-size: 16px;
+          cursor: pointer;
+      ">Members</button>
+
+      <div id="members-list" style="
+          display: none;
+          margin-top: 10px;
+          background-color: rgba(255, 255, 255, 0.13);
+          border: 2px solid rgba(255, 255, 255, 0.12);
+          border-radius: 12px;
+          padding: 10px;
+          backdrop-filter: blur(3px);
+      ">
         <div style="margin: 5px 0; cursor: pointer;" onclick="window.location.href='https://dingle.lol/stryker'">stryker</div>
         <div style="margin: 5px 0; cursor: pointer;" onclick="window.location.href='https://dingle.lol/ghost'">ghost</div>
         <div style="margin: 5px 0; cursor: pointer;" onclick="window.location.href='https://dingle.lol/eatit'">eatit</div>
+      </div>
     </div>
-</div>
 
-<script>
-    const membersButton = document.getElementById("members-button");
-    const membersList = document.getElementById("members-list");
+    <script>
+      const membersButton = document.getElementById("members-button");
+      const membersList = document.getElementById("members-list");
 
-    membersButton.addEventListener("click", () => {
+      membersButton.addEventListener("click", () => {
         membersList.style.display = membersList.style.display === "none" ? "block" : "none";
-    });
-</script>
+      });
+    </script>
+  </body>
 </html>
