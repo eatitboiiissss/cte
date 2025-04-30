@@ -27,7 +27,7 @@
         <link rel="preload" href="audio.mp3" as="audio">
     </head>
     <body>
-        <img src="dinglenut.png" class="falling-image" />
+        
         <video src="video.mp4" playsinline="" loop="" class="eRb39R_ca56e6cc6120e82558ef"></video><audio src="audio.mp3" loop=""></audio>
         <div class="bcYWcV_4ac5c10f247eb261df8a al1zmn_90eaf9aaa3c00ed121cd" style="pointer-events: none; display: none;"><div class="bG2N12_dbdc0f63fcf9ce25e8c2" style="font-weight: 700; font-size: 30px;">click to enter</div></div>
         <style>
@@ -51,16 +51,7 @@
      animation: fall 6s linear infinite;
  }
  
- @keyframes fall {
-     0% {
-         transform: translateX(0) translateY(-150px) rotate(0deg);
-         opacity: 1;
-     }
-     100% {
-         transform: translateX(-100px) translateY(120vh) rotate(360deg);
-         opacity: 0;
-     }
- }
+
  </style>
 </style>
 
@@ -211,21 +202,7 @@
             }
             }, 300);
         <script>
- setInterval(() => {
-     const img = document.createElement('img');
-     img.src = "dinglenut.png";
-     img.className = 'falling-image';
-     img.style.left = Math.random() * 100 + 'vw';
-     img.style.animationDuration = (Math.random() * 3 + 4) + 's';
  
-     document.body.appendChild(img);
- 
-     setTimeout(() => {
-         img.remove();
-     }, 7000); // Clean up
- }, 1000);
- </script>
-      </body>
  
 <!DOCTYPE html>
 <html lang="en">
@@ -266,42 +243,7 @@
       <div class="bG2N12_dbdc0f63fcf9ce25e8c2" style="font-weight: 700; font-size: 30px;">click to enter</div>
     </div>
 
-    <!-- Falling Image Styles -->
-    <style>
-      .falling-image-container {
-        position: fixed;
-        top: -100px;
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 9999;
-        pointer-events: none;
-      }
 
-      .falling-image {
-        width: 66%;
-        animation: fall 5s linear infinite, spin 3s linear infinite;
-        transform-origin: center;
-      }
-
-      @keyframes fall {
-        0% {
-          top: -150px;
-          opacity: 1;
-        }
-        100% {
-          top: 100vh;
-          opacity: 0;
-        }
-      }
-
-      @keyframes spin {
-        from {
-          transform: rotate(0deg);
-        }
-        to {
-          transform: rotate(360deg);
-        }
-      }
     </style>
 
 <!DOCTYPE html>
@@ -526,4 +468,4 @@
         membersList.style.display = membersList.style.display === "none" ? "block" : "none";
     });
 </script>
-</html> make this code have this image falling down from the top of the page and spinning like a windmill but slow
+</html> 
