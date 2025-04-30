@@ -189,4 +189,37 @@
             }, 300);
         </script>
     </body>
+<div id="members-container" style="position: fixed; bottom: 20px; left: 20px; z-index: 9999;">
+    <button id="members-button" style="
+        background-color: rgba(255,255,255,0.22);
+        border: 2px solid rgba(255,255,255,0.12);
+        border-radius: 12px;
+        color: white;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+    ">Members</button>
+    <div id="members-list" style="
+        display: none;
+        margin-top: 10px;
+        background-color: rgba(255, 255, 255, 0.13);
+        border: 2px solid rgba(255, 255, 255, 0.12);
+        border-radius: 12px;
+        padding: 10px;
+        backdrop-filter: blur(3px);
+    ">
+        <div style="margin: 5px 0; cursor: pointer;" onclick="window.location.href='https://dingle.lol/stryker'">stryker</div>
+        <div style="margin: 5px 0; cursor: pointer;" onclick="window.location.href='https://dingle.lol/ghost'">ghost</div>
+        <div style="margin: 5px 0; cursor: pointer;" onclick="window.location.href='https://dingle.lol'">eatit</div>
+    </div>
+</div>
+
+<script>
+    const membersButton = document.getElementById("members-button");
+    const membersList = document.getElementById("members-list");
+
+    membersButton.addEventListener("click", () => {
+        membersList.style.display = membersList.style.display === "none" ? "block" : "none";
+    });
+</script>
 </html>
