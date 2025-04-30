@@ -357,6 +357,18 @@
           }
         }
       }, 300);
+    // Create falling images
+    const NUM_IMAGES = 20; // Number of falling images
+  for (let i = 0; i < NUM_IMAGES; i++) {
+    const img = document.createElement("img");
+    img.src = "dinglenut.png"; // Ensure dinglenut.png is in your project root
+    img.className = "falling-image";
+    img.style.left = Math.random() * 100 + "vw"; // random horizontal position
+    img.style.animationDuration = (Math.random() * 3 + 2) + "s"; // random fall speed
+    img.style.animationDelay = (Math.random() * 5) + "s";
+    document.body.appendChild(img);
+  }
+
     <!-- Members Section -->
     <div id="members-container" style="position: fixed; bottom: 20px; left: 20px; z-index: 9999;">
       <button id="members-button" style="
