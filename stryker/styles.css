@@ -1,0 +1,534 @@
+/* Satoshi */
+@font-face {
+    font-family: 'Satoshi';
+    src: url('https://cdn.fontshare.com/wf/NWBQYJIM7GCZ5XWD7D26ARB3VDY55ZRT/K63EV2KZIGKLE7RANQ2U42S6SVHU5RJ7/X6XYTKIVDUW7GZTZPZNN4EUM5KH54KHF.woff2') format('woff2'),
+         url('https://cdn.fontshare.com/wf/NWBQYJIM7GCZ5XWD7D26ARB3VDY55ZRT/K63EV2KZIGKLE7RANQ2U42S6SVHU5RJ7/X6XYTKIVDUW7GZTZPZNN4EUM5KH54KHF.woff') format('woff'),
+         url('https://cdn.fontshare.com/wf/NWBQYJIM7GCZ5XWD7D26ARB3VDY55ZRT/K63EV2KZIGKLE7RANQ2U42S6SVHU5RJ7/X6XYTKIVDUW7GZTZPZNN4EUM5KH54KHF.ttf') format('truetype');
+    font-weight: 300 900;
+    font-display: swap;
+    font-style: normal;
+}
+  
+/* Array */
+@font-face {
+    font-family: 'Array';
+    src: url('https://cdn.fontshare.com/wf/4QBZHM3FOPYBI67YBLLWZV6ZYIUQTKEE/RXSUFPNEA6YXGQDMHMP3OODY6UWXRJBM/C6VM2RT4EU2NNT5XZWVYHR7WOIOGM4EU.woff2') format('woff2'),
+         url('https://cdn.fontshare.com/wf/4QBZHM3FOPYBI67YBLLWZV6ZYIUQTKEE/RXSUFPNEA6YXGQDMHMP3OODY6UWXRJBM/C6VM2RT4EU2NNT5XZWVYHR7WOIOGM4EU.woff') format('woff'),
+         url('https://cdn.fontshare.com/wf/4QBZHM3FOPYBI67YBLLWZV6ZYIUQTKEE/RXSUFPNEA6YXGQDMHMP3OODY6UWXRJBM/C6VM2RT4EU2NNT5XZWVYHR7WOIOGM4EU.ttf') format('truetype');
+    font-weight: 400;
+    font-display: swap;
+    font-style: normal;
+}
+
+.fixed {
+    position: fixed;
+}
+.flex {
+    display: flex;
+}
+@keyframes appearance-in {
+    0% {
+        opacity: 0;
+        transform: translateZ(0) scale(0.95);
+    }
+    60% {
+        backface-visibility: hidden;
+        opacity: 0.75;
+        webkit-font-smoothing: antialiased;
+        transform: translateZ(0) scale(1.05);
+    }
+    to {
+        opacity: 1;
+        transform: translateZ(0) scale(1);
+    }
+}
+@keyframes drip-expand {
+    0% {
+        opacity: 0.2;
+        transform: scale(0);
+    }
+    to {
+        opacity: 0;
+        transform: scale(2);
+    }
+}
+@keyframes indeterminate-bar {
+    0% {
+        transform: translateX(-50%) scaleX(0.2);
+    }
+    to {
+        transform: translateX(100%) scaleX(1);
+    }
+}
+@keyframes spinner-spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(1turn);
+    }
+}
+.drop-shadow {
+    --tw-drop-shadow: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1)) drop-shadow(0 1px 1px rgba(0, 0, 0, 0.06));
+}
+.drop-shadow {
+    filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+.filter {
+    filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+:root {
+    color-scheme: light;
+    --heroui-background: 0 0% 100%;
+    --heroui-foreground-50: 0 0% 98.04%;
+    --heroui-foreground-100: 240 4.76% 95.88%;
+    --heroui-foreground-200: 240 5.88% 90%;
+    --heroui-foreground-300: 240 4.88% 83.92%;
+    --heroui-foreground-400: 240 5.03% 64.9%;
+    --heroui-foreground-500: 240 3.83% 46.08%;
+    --heroui-foreground-600: 240 5.2% 33.92%;
+    --heroui-foreground-700: 240 5.26% 26.08%;
+    --heroui-foreground-800: 240 3.7% 15.88%;
+    --heroui-foreground-900: 240 5.88% 10%;
+    --heroui-foreground: 201.81999999999994 24.44% 8.82%;
+    --heroui-divider: 0 0% 6.67%;
+    --heroui-divider-opacity: 0.15;
+    --heroui-focus: 212.01999999999998 100% 46.67%;
+    --heroui-overlay: 0 0% 0%;
+    --heroui-content1: 0 0% 100%;
+    --heroui-content1-foreground: 201.81999999999994 24.44% 8.82%;
+    --heroui-content2: 240 4.76% 95.88%;
+    --heroui-content2-foreground: 240 3.7% 15.88%;
+    --heroui-content3: 240 5.88% 90%;
+    --heroui-content3-foreground: 240 5.26% 26.08%;
+    --heroui-content4: 240 4.88% 83.92%;
+    --heroui-content4-foreground: 240 5.2% 33.92%;
+    --heroui-default-50: 0 0% 98.04%;
+    --heroui-default-100: 240 4.76% 95.88%;
+    --heroui-default-200: 240 5.88% 90%;
+    --heroui-default-300: 240 4.88% 83.92%;
+    --heroui-default-400: 240 5.03% 64.9%;
+    --heroui-default-500: 240 3.83% 46.08%;
+    --heroui-default-600: 240 5.2% 33.92%;
+    --heroui-default-700: 240 5.26% 26.08%;
+    --heroui-default-800: 240 3.7% 15.88%;
+    --heroui-default-900: 240 5.88% 10%;
+    --heroui-default-foreground: 0 0% 0%;
+    --heroui-default: 240 4.88% 83.92%;
+    --heroui-primary-50: 212.5 92.31% 94.9%;
+    --heroui-primary-100: 211.84000000000003 92.45% 89.61%;
+    --heroui-primary-200: 211.84000000000003 92.45% 79.22%;
+    --heroui-primary-300: 212.24 92.45% 68.82%;
+    --heroui-primary-400: 212.14 92.45% 58.43%;
+    --heroui-primary-500: 212.01999999999998 100% 46.67%;
+    --heroui-primary-600: 212.14 100% 38.43%;
+    --heroui-primary-700: 212.24 100% 28.82%;
+    --heroui-primary-800: 211.84000000000003 100% 19.22%;
+    --heroui-primary-900: 211.84000000000003 100% 9.61%;
+    --heroui-primary-foreground: 0 0% 100%;
+    --heroui-primary: 212.01999999999998 100% 46.67%;
+    --heroui-secondary-50: 270 61.54% 94.9%;
+    --heroui-secondary-100: 270 59.26% 89.41%;
+    --heroui-secondary-200: 270 59.26% 78.82%;
+    --heroui-secondary-300: 270 59.26% 68.24%;
+    --heroui-secondary-400: 270 59.26% 57.65%;
+    --heroui-secondary-500: 270 66.67% 47.06%;
+    --heroui-secondary-600: 270 66.67% 37.65%;
+    --heroui-secondary-700: 270 66.67% 28.24%;
+    --heroui-secondary-800: 270 66.67% 18.82%;
+    --heroui-secondary-900: 270 66.67% 9.41%;
+    --heroui-secondary-foreground: 0 0% 100%;
+    --heroui-secondary: 270 66.67% 47.06%;
+    --heroui-success-50: 146.66999999999996 64.29% 94.51%;
+    --heroui-success-100: 145.71000000000004 61.4% 88.82%;
+    --heroui-success-200: 146.2 61.74% 77.45%;
+    --heroui-success-300: 145.78999999999996 62.57% 66.47%;
+    --heroui-success-400: 146.01 62.45% 55.1%;
+    --heroui-success-500: 145.96000000000004 79.46% 43.92%;
+    --heroui-success-600: 146.01 79.89% 35.1%;
+    --heroui-success-700: 145.78999999999996 79.26% 26.47%;
+    --heroui-success-800: 146.2 79.78% 17.45%;
+    --heroui-success-900: 145.71000000000004 77.78% 8.82%;
+    --heroui-success-foreground: 0 0% 0%;
+    --heroui-success: 145.96000000000004 79.46% 43.92%;
+    --heroui-warning-50: 54.55000000000001 91.67% 95.29%;
+    --heroui-warning-100: 37.139999999999986 91.3% 90.98%;
+    --heroui-warning-200: 37.139999999999986 91.3% 81.96%;
+    --heroui-warning-300: 36.95999999999998 91.24% 73.14%;
+    --heroui-warning-400: 37.00999999999999 91.26% 64.12%;
+    --heroui-warning-500: 37.02999999999997 91.27% 55.1%;
+    --heroui-warning-600: 37.00999999999999 74.22% 44.12%;
+    --heroui-warning-700: 36.95999999999998 73.96% 33.14%;
+    --heroui-warning-800: 37.139999999999986 75% 21.96%;
+    --heroui-warning-900: 37.139999999999986 75% 10.98%;
+    --heroui-warning-foreground: 0 0% 0%;
+    --heroui-warning: 37.02999999999997 91.27% 55.1%;
+    --heroui-danger-50: 339.13 92% 95.1%;
+    --heroui-danger-100: 340 91.84% 90.39%;
+    --heroui-danger-200: 339.3299999999999 90% 80.39%;
+    --heroui-danger-300: 339.11 90.6% 70.78%;
+    --heroui-danger-400: 339 90% 60.78%;
+    --heroui-danger-500: 339.20000000000005 90.36% 51.18%;
+    --heroui-danger-600: 339 86.54% 40.78%;
+    --heroui-danger-700: 339.11 85.99% 30.78%;
+    --heroui-danger-800: 339.3299999999999 86.54% 20.39%;
+    --heroui-danger-900: 340 84.91% 10.39%;
+    --heroui-danger-foreground: 0 0% 100%;
+    --heroui-danger: 339.20000000000005 90.36% 51.18%;
+    --heroui-divider-weight: 1px;
+    --heroui-disabled-opacity: 0.5;
+    --heroui-font-size-tiny: 0.75rem;
+    --heroui-font-size-small: 0.875rem;
+    --heroui-font-size-medium: 1rem;
+    --heroui-font-size-large: 1.125rem;
+    --heroui-line-height-tiny: 1rem;
+    --heroui-line-height-small: 1.25rem;
+    --heroui-line-height-medium: 1.5rem;
+    --heroui-line-height-large: 1.75rem;
+    --heroui-radius-small: 8px;
+    --heroui-radius-medium: 12px;
+    --heroui-radius-large: 14px;
+    --heroui-border-width-small: 1px;
+    --heroui-border-width-medium: 2px;
+    --heroui-border-width-large: 3px;
+    --heroui-box-shadow-small: 0px 0px 5px 0px rgba(0, 0, 0, 0.02), 0px 2px 10px 0px rgba(0, 0, 0, 0.06), 0px 0px 1px 0px rgba(0, 0, 0, 0.3);
+    --heroui-box-shadow-medium: 0px 0px 15px 0px rgba(0, 0, 0, 0.03), 0px 2px 30px 0px rgba(0, 0, 0, 0.08), 0px 0px 1px 0px rgba(0, 0, 0, 0.3);
+    --heroui-box-shadow-large: 0px 0px 30px 0px rgba(0, 0, 0, 0.04), 0px 30px 60px 0px rgba(0, 0, 0, 0.12), 0px 0px 1px 0px rgba(0, 0, 0, 0.3);
+    --heroui-hover-opacity: 0.8;
+}
+body {
+    background-color: #0a0a0a;
+    color: #a13ecf9c;
+    margin: 0;
+    overflow-x: hidden;
+    padding: 0;
+}
+body {
+    font-family: Satoshi, sans-serif;
+}
+body,
+html {
+    height: 100%;
+}
+body {
+    min-height: 100%;
+}
+::-moz-selection {
+    background: #b364d79c;
+    color: #080808fa;
+}
+::-moz-selection {
+    background: #eee;
+    color: #09090b;
+}
+::selection {
+    background: #eee;
+    color: #09090b;
+}
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: #181818;
+    border-radius: 5px;
+}
+:root {
+    --rt-color-dark: #0f0f0f !important;
+    --rt-opacity: 1 !important;
+}
+@keyframes shimmer {
+    to {
+        content: var(--tw-content);
+        transform: translateX(100%);
+    }
+}
+@keyframes eVhcdG_1a7d051ed0aa804402af {
+    0% {
+        opacity: 1;
+    }
+    to {
+        opacity: 0.4;
+    }
+}
+@keyframes yG23ZF_f260513f92977ebe2a55 {
+    0% {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(110vh);
+    }
+}
+@keyframes sNb0um_7d79542c9f6bd4fc481e {
+    0%,
+    to {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(80px);
+    }
+}
+.eRb39R_ca56e6cc6120e82558ef {
+    bottom: 0;
+    height: 100vh;
+    left: 0;
+    -o-object-fit: cover;
+    object-fit: cover;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 100vw;
+    z-index: -1;
+}
+.bcYWcV_4ac5c10f247eb261df8a {
+    align-items: center;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    background-color: rgba(0, 0, 0, 0.775);
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    left: 0;
+    position: fixed;
+    top: 0;
+    transition: 0.75s ease;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    width: 100%;
+    z-index: 9999;
+}
+.bcYWcV_4ac5c10f247eb261df8a.al1zmn_90eaf9aaa3c00ed121cd {
+    opacity: 0;
+}
+.bG2N12_dbdc0f63fcf9ce25e8c2 {
+    color: #fafafa;
+    padding: 0 10px;
+    text-align: center;
+}
+.quX2nx_87e32c7ed391a936e81d {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    justify-content: center;
+    margin-top: 30px;
+    row-gap: 11px;
+    width: 100%;
+}
+.qytYbN_f868b47b56a17c140676 {
+    display: flex;
+}
+.qytYbN_f868b47b56a17c140676 svg {
+    font-size: 35px;
+    transition: 0.3s;
+    margin: 0 10px;
+}
+.qytYbN_f868b47b56a17c140676 svg:hover {
+    transform: scale(1.1);
+}
+.qytYbN_f868b47b56a17c140676 a {
+    display: flex;
+}
+.fwNYeU_41d205e0e5755e844659 svg {
+    color: #f7f7f7;
+    filter: drop-shadow(#f7f7f7 1px 0 7px);
+}
+.bUnOzz_eaee5107d30fdb87fa98 {
+    background-color: var(--presenceContainerBackground);
+    border: var(--presenceContainerBorder);
+    border-radius: 25px;
+    box-sizing: border-box;
+    justify-content: space-between;
+    max-width: -moz-fit-content;
+    max-width: fit-content;
+    width: 100%;
+}
+.bUnOzz_eaee5107d30fdb87fa98 {
+    align-items: center;
+    display: flex;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.oybuRp_cc3dabc52164e21fde34 {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    height: 100%;
+    justify-content: center;
+    padding: 15px;
+}
+.oybuRp_cc3dabc52164e21fde34 h1,
+.oybuRp_cc3dabc52164e21fde34 h3 {
+    margin: 0;
+}
+.oybuRp_cc3dabc52164e21fde34 h1 {
+    align-items: center;
+    color: var(--presenceUsernameColor);
+    display: flex;
+}
+.oybuRp_cc3dabc52164e21fde34 h1 svg {
+    color: #da2f2f;
+    font-size: 24px;
+    margin-right: 6px;
+}
+.oybuRp_cc3dabc52164e21fde34 h3 {
+    color: var(--presenceStatusColor);
+}
+.oybuRp_cc3dabc52164e21fde34 h3 a {
+    color: var(--presenceUsernameColor);
+}
+.ahR0lX_8d25fbd2ec018e7f3333 {
+    background-position: 50%;
+    background-size: cover;
+    height: 100%;
+    position: absolute;
+    width: 100%;
+}
+.wXN33Y_089e78ae7261139e29df {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: 100%;
+    justify-content: center;
+}
+.q9SY5I_02af604a2f0bd5f52a08 {
+    backdrop-filter: blur(var(--containerBlur));
+    -webkit-backdrop-filter: blur(var(--containerBlur));
+    background-color: var(--containerColor);
+    background-image: var(--containerGradient);
+    background-origin: border-box;
+    border: var(--containerBorder);
+    border-radius: var(--containerRadius);
+    box-sizing: border-box;
+    max-width: var(--containerWidth);
+    padding: var(--containerPadding);
+    pointer-events: none;
+    width: 100%;
+}
+@keyframes clNwu1_13049f0cfabe08e6ffce {
+    0% {
+        opacity: 0;
+        transform: scale(0.8) rotate(-1turn);
+    }
+    60% {
+        opacity: 1;
+        transform: scale(1.1) rotate(-180deg);
+    }
+    to {
+        transform: scale(1) rotate(0);
+    }
+}
+.eyN9UZ_85176f7ad5dd05cd2a8a:hover {
+    backdrop-filter: blur(10px);
+}
+.eyN9UZ_85176f7ad5dd05cd2a8a {
+    margin-bottom: -100px !important;
+    opacity: 0 !important;
+    transition: opacity 3s, margin-bottom 2.4s, backdrop-filter 0.8s;
+}
+.aw0RW2_13307e85a9f2f85643fd {
+    margin-bottom: 0 !important;
+    opacity: 1 !important;
+    pointer-events: all;
+    box-shadow: rgba(0, 0, 0, 0.2) 5px 5px 5px;
+}
+.a1Lcy9_e606f195670897bc74a6 {
+    height: 100%;
+    position: fixed;
+    width: 100%;
+    z-index: -2;
+}
+.xZw2Vb_599d5ef2ae281840bef2 {
+    bottom: 12px;
+    left: 15px;
+    position: absolute;
+}
+.xZw2Vb_599d5ef2ae281840bef2 span {
+    align-items: center;
+    color: var(--textColor);
+    display: flex;
+}
+.xZw2Vb_599d5ef2ae281840bef2 span svg {
+    font-size: 19px;
+    margin-right: 5px;
+}
+@media (max-width: 690px) {
+    .q9SY5I_02af604a2f0bd5f52a08 {
+        box-sizing: border-box;
+        width: 95%;
+    }
+}
+@media (max-width: 370px) {
+    .q9SY5I_02af604a2f0bd5f52a08 {
+        width: 100%;
+    }
+}
+@keyframes r3XBdR_8a8ea89dbecde7a8ccc6 {
+    0% {
+        background-position: 0 50%;
+    }
+    to {
+        background-position: 100% 50%;
+    }
+}
+.emNRGB_ff639c93586c40a8688e {
+    display: flex;
+    justify-content: center;
+    max-width: 28rem;
+    width: 100%;
+}
+.gRmW3U_35f2a4c5b48e5f22cb72 {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    justify-content: center;
+    max-width: var(--containerWidth);
+    width: 100%;
+}
+.oy19uW_d0dc3a8bbeb8294cbc40 {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.nGuOwb_b7ae81993acc636a36eb {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 7px;
+    max-width: 27rem;
+    text-align: center;
+}
+.tby1MN_1fe480aaf30e20184c29,
+.x3Nblj_f8ef53b912061d92eab6 {
+    color: var(--textColor);
+    margin: 0;
+}
+.tby1MN_1fe480aaf30e20184c29 {
+    margin-top: 5px;
+}
+.x3Nblj_f8ef53b912061d92eab6 {
+    background-image: var(--usernameEffects);
+    text-shadow: var(--colorUsernameGlow);
+    width: -moz-fit-content;
+    width: fit-content;
+}
+.mcVunh_b4c509d547ebc284a4d0 {
+    margin-bottom: 7px;
+    padding: 0 15px;
+}
+@keyframes vw3Nd9_b27a6720e965d87b8973 {
+    0% {
+        opacity: 1;
+    }
+    to {
+        opacity: 0.4;
+    }
+}
