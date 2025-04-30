@@ -41,6 +41,32 @@
         </style>
         <style>
 </style>
+<style>
+.falling-image-container {
+    position: fixed;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    pointer-events: none;
+}
+
+.falling-image {
+    width: 66%; /* 1.5x smaller */
+    animation: fall 5s linear infinite, spin 3s linear infinite;
+    transform-origin: center;
+}
+
+@keyframes fall {
+    0% { top: -150px; opacity: 1; }
+    100% { top: 100vh; opacity: 0; }
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+</style>
 
 </style>
 
@@ -193,7 +219,10 @@
         </script>
     <script>
 
-    </body>
+    </body><div class="falling-image-container">
+    <img src="https://i.imgur.com/wWrM1r3.png" class="falling-image" />
+</div>
+</body>
 <div id="members-container" style="position: fixed; bottom: 20px; left: 20px; z-index: 9999;">
     <button id="members-button" style="
         background-color: rgba(255,255,255,0.22);
