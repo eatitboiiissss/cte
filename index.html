@@ -27,7 +27,6 @@
         <link rel="preload" href="audio.mp3" as="audio">
     </head>
     <body>
-<img src="https://i.imgur.com/sPEszC8.png" class="falling-image" />
         <video src="video.mp4" playsinline="" loop="" class="eRb39R_ca56e6cc6120e82558ef"></video><audio src="audio.mp3" loop=""></audio>
         <div class="bcYWcV_4ac5c10f247eb261df8a al1zmn_90eaf9aaa3c00ed121cd" style="pointer-events: none; display: none;"><div class="bG2N12_dbdc0f63fcf9ce25e8c2" style="font-weight: 700; font-size: 30px;">click to enter</div></div>
         <style>
@@ -41,28 +40,6 @@
             }
         </style>
         <style>
-<style>
-.falling-image {
-    position: fixed;
-    top: -150px;
-    left: 50%;
-    width: 80px;
-    height: auto;
-    z-index: 9999;
-    animation: fall 6s linear infinite;
-    pointer-events: none;
-}
-
-@keyframes fall {
-    0% {
-        transform: translateX(0) translateY(-150px) rotate(0deg);
-        opacity: 1;
-    }
-    100% {
-        transform: translateX(-100px) translateY(120vh) rotate(360deg);
-        opacity: 0;
-    }
-}
 </style>
 
 </style>
@@ -215,20 +192,6 @@
             }, 300);
         </script>
     <script>
-setInterval(() => {
-    const img = document.createElement('img');
-    img.src = "dinglenut.png";
-    img.className = 'falling-image';
-    img.style.left = Math.random() * 100 + 'vw';
-    img.style.animationDuration = (Math.random() * 3 + 4) + 's';
-
-    document.body.appendChild(img);
-
-    setTimeout(() => {
-        img.remove();
-    }, 7000); // Clean up
-}, 1000);
-</script>
 
     </body>
 <div id="members-container" style="position: fixed; bottom: 20px; left: 20px; z-index: 9999;">
