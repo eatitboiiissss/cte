@@ -304,82 +304,226 @@
       }
     </style>
 
-    <script>
-      // Overlay click event to start video and audio
-      const overlay = document.querySelector(".bcYWcV_4ac5c10f247eb261df8a");
-      const video = document.querySelector(".eRb39R_ca56e6cc6120e82558ef");
-      const audio = document.querySelector("audio");
-      const content = document.querySelector(".eyN9UZ_85176f7ad5dd05cd2a8a");
-      overlay.style.display = "flex";
-      overlay.style.opacity = "1";
-      overlay.style.pointerEvents = "";
-      content.classList.remove("aw0RW2_13307e85a9f2f85643fd");
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="styles.css" data-precedence="next" />
+        <title></title>
+        <meta name="description" content="web developer | architecture overlord" />
+        <meta name="author" content="@eatit" />
+        <meta property="og:title" content="@eatit" />
+        <meta property="og:description" content="Owner of dingle.lol" />
+        <meta property="og:image" content="https://uploads.scratch.mit.edu/get_image/user/40434320_512x512.png" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="@eatit" />
+        <meta name="twitter:description" content="Owner of dingle.lol" />
+        <meta name="twitter:image" content="https://uploads.scratch.mit.edu/get_image/user/40434320_512x512.png" />
+        <meta name="theme-color" content="#ffffff" />
+        <link rel="stylesheet" data-font="satoshi" href="." />
+        <style data-font="satoshi">
+            body,
+            * {
+                font-family: "Satoshi", sans-serif !important;
+            }
+        </style>
+        <link rel="preload" href="video.mp4" as="video">
+        <link rel="preload" href="audio.mp3" as="audio">
+    </head>
+    <body>
+        <video src="video.mp4" playsinline="" loop="" class="eRb39R_ca56e6cc6120e82558ef"></video><audio src="audio.mp3" loop=""></audio>
+        <div class="bcYWcV_4ac5c10f247eb261df8a al1zmn_90eaf9aaa3c00ed121cd" style="pointer-events: none; display: none;"><div class="bG2N12_dbdc0f63fcf9ce25e8c2" style="font-weight: 700; font-size: 30px;">click to enter</div></div>
+        <style>
+            ::-moz-selection {
+                background: #ffffff;
+                color: #ffffff;
+            }
+            ::selection {
+                background: #ffffff;
+                color: #ffffff;
+            }
+        </style>
+        <div class="a1Lcy9_e606f195670897bc74a6" style="background-color: #ffffff;"></div>
+        <div
+            style="
+                --presenceUsernameColor: #ffffff;
+                --presenceStatusColor: rgba(255, 255, 255, 0.7);
+                --presenceContainerBackground: rgba(255, 255, 255, 0.2);
+                --presenceContainerBorder: 2px solid rgba(255, 255, 255, 0.1);
+                --discordServerMembers: rgba(255, 255, 255, 0.6);
+                --secondTabBackground: rgba(255, 255, 255, 0.2);
+                --secondTabBorder: 2px solid rgba(255, 255, 255, 0.1);
+                --discordMissingIcon: rgba(255, 255, 255, 0.25);
+                --modernLayoutSeperator: rgba(255, 255, 255, 0.12);
+                --modernLayoutSeperatorBorder: rgba(255, 255, 255, 0.12);
+                --discordAvatarBorder: 2px solid rgba(255, 255, 255, 0.15);
+                --badgeContainerBackground: rgba(255, 255, 255, 0.2);
+                --badgeContainerBorder: 2px solid rgba(255, 255, 255, 0.04);
+                --userBadge: 20.5px;
+                --textColor: #ffffff;
+                --textColorDarker: rgba(255, 255, 255, 0.5);
+                --iconColor: #ffffff;
+                --backgroundColor: #ffffff;
+                --joinStatus: rgba(255, 255, 255, 0.65);
+                --audioPlayerBar: rgba(255, 255, 255, 0.35);
+                --avatarBorder: 2px solid rgba(255, 255, 255, 0.4);
+                --containerColor: rgba(255, 255, 255, 0.13);
+                --containerBlur: 3px;
+                --containerRadius: 20px;
+                --containerWidth: 40rem;
+                --containerPadding: 35px 15px;
+                --volumeBackgroundcolor: rgba(255, 255, 255, 0.13);
+                --volumeBorder: 2px solid rgba(255, 255, 255, 0.117);
+                --colorUsernameGlow: 0px 0px 16.5px #ffffff;
+                --usernameEffects: url(sparkle_white.gif);
+                --buttonBackground: rgba(255, 255, 255, 0.22);
+                --buttonBorder: 2px solid rgba(255, 255, 255, 0.12);
+                --buttonRadius: 12px;
+                --buttonAlign: center;
+                --buttonBackgroundHover: rgba(255, 255, 255, 0.32);
+                --buttonBorderHover: 2px solid rgba(255, 255, 255, 0.25);
+                --buttonUrlColor: rgba(255, 255, 255, 0.65);
+                --profileViewsContainerBorder: 2px solid rgba(255, 255, 255, 0.10400000000000001);
+                --templatePreviewContainerBackground: rgba(255, 255, 255, 0.4);
+                --platformTextColor: rgba(255, 255, 255, 0.4);
+                --secondTabWidgetDescription: rgba(255, 255, 255, 0.6);
+                --audioIconBackground: rgba(255, 255, 255, 0.2);
+                --progessBarFull: rgba(255, 255, 255, 0.3);
+                --progessBarPlaying: #ffffff;
+                --controlButtonsOther: rgba(255, 255, 255, 0.5);
+                --controlButtonPlaying: #ffffff;
+                --controlTextColor: rgba(255, 255, 255, 0.7);
+                --modernLayoutBottomLeftDivider: rgba(255, 255, 255, 0.14);
+            "
+        >
+            <div class="ahR0lX_8d25fbd2ec018e7f3333">
+                <div class="wXN33Y_089e78ae7261139e29df">
+                    <div class="gRmW3U_35f2a4c5b48e5f22cb72" style="position: fixed;">
+                        <div class="q9SY5I_02af604a2f0bd5f52a08 eyN9UZ_85176f7ad5dd05cd2a8a aw0RW2_13307e85a9f2f85643fd">
+                            <div class="oy19uW_d0dc3a8bbeb8294cbc40">
+                                <div></div>
+                                <div class="nGuOwb_b7ae81993acc636a36eb false">
+                                    <h1 class="x3Nblj_f8ef53b912061d92eab6 false" style="font-weight: 600; font-size: 39.5px;">dingle.lol</h1>
+                                </div>
+                                <div class="emNRGB_ff639c93586c40a8688e false">
+                                    <div class="bUnOzz_eaee5107d30fdb87fa98" style="margin-top: 20px;">
+                                        <div class="oybuRp_cc3dabc52164e21fde34">
+                                        </div>
+                                    </div>
+                                  <h3 class="x3Nblj_f8ef53b912061d92eab6 false" style="font-weight: 600; font-size: 39.5px;">Welcome to dingle.lol</h3>
+                                </div>
+                                <div class="mcVunh_b4c509d547ebc284a4d0 false">
+                                    <div class="quX2nx_87e32c7ed391a936e81d">
+                                        <div class="qytYbN_f868b47b56a17c140676 fwNYeU_41d205e0e5755e844659">
+                                            <style>
+                                                .fwNYeU_41d205e0e5755e844659 svg {
+                                                    color: #ffffff !important;
+                                                    filter: drop-shadow(#ffffff 1px 0 7px) !important;
+                                                }
+                                            </style>
+                                            <a target="_blank" rel="noopener noreferer" title="Link to Discord" href="https://discord.gg/hwKaj2CSgh">
+                                                <svg xmlns="http://www.w3.org/2000/svg" id="Discord-Logo" viewBox="0 0 126.644 96" width="1em" height="1em">
+                                                    <defs>
+                                                        <style>
+                                                            .cls-1 {
+                                                                fill: #fff;
+                                                            }
+                                                        </style>
+                                                    </defs>
+                                                    <path id="Discord-Symbol-White" class="cls-1" d="M81.15,0c-1.2376,2.1973-2.3489,4.4704-3.3591,6.794-9.5975-1.4396-19.3718-1.4396-28.9945,0-.985-2.3236-2.1216-4.5967-3.3591-6.794-9.0166,1.5407-17.8059,4.2431-26.1405,8.0568C2.779,32.5304-1.6914,56.3725.5312,79.8863c9.6732,7.1476,20.5083,12.603,32.0505,16.0884,2.6014-3.4854,4.8998-7.1981,6.8698-11.0623-3.738-1.3891-7.3497-3.1318-10.8098-5.1523.9092-.6567,1.7932-1.3386,2.6519-1.9953,20.281,9.547,43.7696,9.547,64.0758,0,.8587.7072,1.7427,1.3891,2.6519,1.9953-3.4601,2.0457-7.0718,3.7632-10.835,5.1776,1.97,3.8642,4.2683,7.5769,6.8698,11.0623,11.5419-3.4854,22.3769-8.9156,32.0509-16.0631,2.626-27.2771-4.496-50.9172-18.817-71.8548C98.9811,4.2684,90.1918,1.5659,81.1752.0505l-.0252-.0505ZM42.2802,65.4144c-6.2383,0-11.4159-5.6575-11.4159-12.6535s4.9755-12.6788,11.3907-12.6788,11.5169,5.708,11.4159,12.6788c-.101,6.9708-5.026,12.6535-11.3907,12.6535ZM84.3576,65.4144c-6.2637,0-11.3907-5.6575-11.3907-12.6535s4.9755-12.6788,11.3907-12.6788,11.4917,5.708,11.3906,12.6788c-.101,6.9708-5.026,12.6535-11.3906,12.6535Z"></path>
+                                                </svg>
+                                            </a>
+                                            <a target="_blank" rel="noopener noreferer" title="Link to GitHub" href="https://github.com/eatitboiiissss">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewbox="0 0 100 100">
+                                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z" fill="#fff"/>
+                                                </svg>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            
+                                    </svg>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            const overlay = document.querySelector(".bcYWcV_4ac5c10f247eb261df8a");
+            const video = document.querySelector(".eRb39R_ca56e6cc6120e82558ef");
+            const audio = document.querySelector("audio");
+            const content = document.querySelector(".eyN9UZ_85176f7ad5dd05cd2a8a");
+            overlay.style.display = "flex";
+            overlay.style.opacity = "1";
+            overlay.style.pointerEvents = "";
+            content.classList.remove("aw0RW2_13307e85a9f2f85643fd")
+            overlay.onclick = function() {
+                overlay.style.opacity = "0";
+                overlay.style.pointerEvents = "none";
+                video.play()
+                audio.play()
+                content.classList.add("aw0RW2_13307e85a9f2f85643fd")
+            }
+            const handle = "@eatit";
+            let i = 1;
+            let reverse = false;
 
-      overlay.onclick = function () {
-        overlay.style.opacity = "0";
-        overlay.style.pointerEvents = "none";
-        video.play();
-        audio.play();
-        content.classList.add("aw0RW2_13307e85a9f2f85643fd");
-      };
+            setInterval(() => {
+            document.title = handle.slice(0, i);
 
-      // Title animation for @eatit
-      const handle = "@eatit";
-      let i = 1;
-      let reverse = false;
-
-      setInterval(() => {
-        document.title = handle.slice(0, i);
-
-        if (!reverse) {
-          i++;
-          if (i > handle.length) {
-            reverse = true;
-            i = handle.length - 1;
-          }
-        } else {
-          i--;
-          if (i === 0) {
-            reverse = false;
-            i = 1;
-          }
-        }
-      }, 300);
-        
-    <!-- Members Section -->
-    <div id="members-container" style="position: fixed; bottom: 20px; left: 20px; z-index: 9999;">
-      <button id="members-button" style="
-          background-color: rgba(255,255,255,0.22);
-          border: 2px solid rgba(255,255,255,0.12);
-          border-radius: 12px;
-          color: white;
-          padding: 10px 20px;
-          font-size: 16px;
-          cursor: pointer;
-      ">Members</button>
-
-      <div id="members-list" style="
-          display: none;
-          margin-top: 10px;
-          background-color: rgba(255, 255, 255, 0.13);
-          border: 2px solid rgba(255, 255, 255, 0.12);
-          border-radius: 12px;
-          padding: 10px;
-          backdrop-filter: blur(3px);
-      ">
+            if (!reverse) {
+                i++;
+                if (i > handle.length) {
+                reverse = true;
+                i = handle.length - 1;
+                }
+            } else {
+                i--;
+                if (i === 0) {
+                reverse = false;
+                i = 1;
+                }
+            }
+            }, 300);
+        </script>
+    </body>
+<div id="members-container" style="position: fixed; bottom: 20px; left: 20px; z-index: 9999;">
+    <button id="members-button" style="
+        background-color: rgba(255,255,255,0.22);
+        border: 2px solid rgba(255,255,255,0.12);
+        border-radius: 12px;
+        color: white;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+    ">Members</button>
+    <div id="members-list" style="
+        display: none;
+        margin-top: 10px;
+        background-color: rgba(255, 255, 255, 0.13);
+        border: 2px solid rgba(255, 255, 255, 0.12);
+        border-radius: 12px;
+        padding: 10px;
+        backdrop-filter: blur(3px);
+    ">
         <div style="margin: 5px 0; cursor: pointer;" onclick="window.location.href='https://dingle.lol/stryker'">stryker</div>
         <div style="margin: 5px 0; cursor: pointer;" onclick="window.location.href='https://dingle.lol/ghost'">ghost</div>
         <div style="margin: 5px 0; cursor: pointer;" onclick="window.location.href='https://dingle.lol/eatit'">eatit</div>
-      </div>
     </div>
+</div>
 
-    <script>
-      const membersButton = document.getElementById("members-button");
-      const membersList = document.getElementById("members-list");
+<script>
+    const membersButton = document.getElementById("members-button");
+    const membersList = document.getElementById("members-list");
 
-      membersButton.addEventListener("click", () => {
+    membersButton.addEventListener("click", () => {
         membersList.style.display = membersList.style.display === "none" ? "block" : "none";
-      });
-    </script>
-  </body>
-</html>
+    });
+</script>
+</html> make this code have this image falling down from the top of the page and spinning like a windmill but slow
