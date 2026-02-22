@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Discord UI Clone</title>
+    <title>Discord UI Clone - Server Creator</title>
     <style>
-        /* CSS - The Design */
         :root {
             --bg-dark: #202225;
             --bg-medium: #2f3136;
             --bg-light: #36393f;
+            --bg-modifier: #40444b;
             --text-muted: #8e9297;
             --discord-blue: #5865f2;
+            --discord-green: #3ba55c;
         }
 
         body, html {
@@ -22,7 +23,7 @@
 
         .app-container { display: flex; height: 100vh; }
 
-        /* Left Sidebar: Servers */
+        /* 1. Server Sidebar */
         .server-list {
             width: 72px; background-color: var(--bg-dark);
             display: flex; flex-direction: column; align-items: center; padding-top: 12px;
@@ -33,143 +34,155 @@
             width: 48px; height: 48px; background-color: var(--bg-light);
             border-radius: 50%; margin-bottom: 8px; display: flex;
             align-items: center; justify-content: center; cursor: pointer; 
-            transition: all 0.2s ease; font-weight: bold;
+            transition: all 0.2s ease; font-weight: bold; overflow: hidden;
         }
 
         .server-icon:hover { border-radius: 30%; background-color: var(--discord-blue); }
         .server-icon.active { border-radius: 30%; background-color: var(--discord-blue); }
+        .server-icon.plus { color: var(--discord-green); }
+        .server-icon.plus:hover { background-color: var(--discord-green); color: white; }
 
-        /* Middle Sidebar: Channels */
+        /* 2. Channel Sidebar */
         .channel-list {
             width: 240px; background-color: var(--bg-medium);
             display: flex; flex-direction: column; flex-shrink: 0;
         }
 
-        .server-header {
-            padding: 15px; font-weight: bold; font-size: 16px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.5); z-index: 2;
-        }
-
-        .channels-container { padding: 10px 8px; flex-grow: 1; }
+        .server-header { padding: 15px; font-weight: bold; box-shadow: 0 1px 2px rgba(0,0,0,0.5); }
 
         .channel-item {
             padding: 8px 10px; color: var(--text-muted); cursor: pointer;
-            border-radius: 4px; margin-bottom: 2px; transition: 0.1s;
+            border-radius: 4px; margin: 2px 8px;
         }
 
-        .channel-item:hover { background-color: #393c43; color: #dcddde; }
         .channel-item.active { background-color: #393c43; color: white; }
-        .channel-item::before { content: "# "; font-size: 1.2em; color: var(--text-muted); }
 
-        /* Main Area: Chat */
+        /* 3. Main Chat Area */
         .chat-area { flex-grow: 1; display: flex; flex-direction: column; }
-
-        .chat-header {
-            padding: 15px; font-weight: bold; border-bottom: 1px solid #26272b;
-            display: flex; align-items: center;
-        }
-
-        .message-history {
-            flex-grow: 1; padding: 20px; overflow-y: auto;
-            display: flex; flex-direction: column; justify-content: flex-end;
-        }
-
-        .message { margin-bottom: 15px; animation: fadeIn 0.3s ease; }
-        .message strong { color: #fff; margin-right: 8px; }
-        .message span { color: #dcddde; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-
-        .input-container { padding: 20px; background-color: var(--bg-light); }
-        
-        input {
+        .chat-header { padding: 15px; font-weight: bold; border-bottom: 1px solid #26272b; }
+        .message-history { flex-grow: 1; padding: 20px; overflow-y: auto; }
+        .input-container { padding: 20px; }
+        input[type="text"] {
             width: 100%; padding: 12px; border-radius: 8px; border: none;
-            background-color: #40444b; color: white; outline: none; box-sizing: border-box;
+            background-color: var(--bg-modifier); color: white; outline: none;
         }
 
-        hr { border: 0; border-top: 2px solid #36393f; width: 32px; margin: 4px 0 8px 0; }
+        /* 4. Member List (New) */
+        .member-list {
+            width: 200px; background-color: var(--bg-medium);
+            padding: 20px 10px; flex-shrink: 0;
+        }
+        .member { padding: 5px; color: var(--text-muted); display: flex; align-items: center; }
+        .status-dot { width: 10px; height: 10px; background: var(--discord-green); border-radius: 50%; margin-right: 10px; }
+
+        /* 5. MODAL (Server Creation Pop-up) */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; z-index: 100;
+        }
+        .modal {
+            background: var(--bg-light); padding: 30px; border-radius: 8px;
+            width: 400px; text-align: center;
+        }
+        .modal h2 { margin-top: 0; }
+        .modal input { margin: 20px 0; width: 80%; padding: 10px; border-radius: 5px; border: 1px solid #222; background: #202225; color: white; }
+        .btn-create { background: var(--discord-blue); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; width: 100%; }
+        
+        hr { border: 0; border-top: 2px solid #36393f; width: 32px; margin-bottom: 8px; }
     </style>
 </head>
 <body>
 
     <div class="app-container">
-        <nav class="server-list">
-            <div class="server-icon active" title="Home">H</div>
+        <nav class="server-list" id="server-nav">
+            <div class="server-icon active">H</div>
             <hr>
-            <div class="server-icon" title="JavaScript">JS</div>
-            <div class="server-icon" title="GitHub Project">GH</div>
-            <div class="server-icon" style="color: #3ba55c;">+</div>
+            <div class="server-icon plus" id="open-modal" title="Add a Server">+</div>
         </nav>
 
         <aside class="channel-list">
-            <header class="server-header">Project Workspace</header>
-            <div class="channels-container">
-                <div class="channel-item active" data-channel="general">general</div>
-                <div class="channel-item" data-channel="resources">resources</div>
-                <div class="channel-item" data-channel="off-topic">off-topic</div>
-            </div>
+            <header class="server-header" id="server-name-display">Home Server</header>
+            <div class="channel-item active"># general</div>
+            <div class="channel-item"># rules</div>
         </aside>
 
         <main class="chat-area">
-            <header class="chat-header" id="current-channel"># general</header>
-            
+            <header class="chat-header"># general</header>
             <div class="message-history" id="chat-box">
-                <div class="message">
-                    <strong>System:</strong> <span>Welcome to the workspace! Type a message below.</span>
-                </div>
+                <div style="color:var(--text-muted)">Welcome to the beginning of this server.</div>
             </div>
-
             <div class="input-container">
                 <input type="text" id="msg-input" placeholder="Message #general">
             </div>
         </main>
+
+        <aside class="member-list">
+            <div style="font-size: 12px; font-weight: bold; color: var(--text-muted); margin-bottom: 10px;">ONLINE — 1</div>
+            <div class="member"><div class="status-dot"></div> You</div>
+        </aside>
+    </div>
+
+    <div class="modal-overlay" id="modal">
+        <div class="modal">
+            <h2>Create Your Server</h2>
+            <p style="color: var(--text-muted)">Give your new server a personality with a name.</p>
+            <input type="text" id="new-server-name" placeholder="Server Name" maxlength="2">
+            <p style="font-size: 10px; color: grey;">(Max 2 letters for the icon)</p>
+            <button class="btn-create" id="create-btn">Create</button>
+        </div>
     </div>
 
     <script>
+        const modal = document.getElementById('modal');
+        const openModalBtn = document.getElementById('open-modal');
+        const createBtn = document.getElementById('create-btn');
+        const serverNav = document.getElementById('server-nav');
+        const serverNameInput = document.getElementById('new-server-name');
+        const serverHeader = document.getElementById('server-name-display');
+
+        // 1. Open/Close Modal
+        openModalBtn.onclick = () => modal.style.display = 'flex';
+        window.onclick = (event) => { if (event.target == modal) modal.style.display = 'none'; }
+
+        // 2. Create Server Logic
+        createBtn.onclick = () => {
+            const name = serverNameInput.value.toUpperCase();
+            if (name.trim() === "") return;
+
+            // Create new icon element
+            const newIcon = document.createElement('div');
+            newIcon.className = 'server-icon';
+            newIcon.innerText = name;
+            newIcon.title = name + " Server";
+
+            // Add Click Event to the new server
+            newIcon.onclick = () => {
+                document.querySelectorAll('.server-icon').forEach(i => i.classList.remove('active'));
+                newIcon.classList.add('active');
+                serverHeader.innerText = name + " Server";
+            };
+
+            // Insert before the Plus button
+            serverNav.insertBefore(newIcon, openModalBtn);
+
+            // Reset and Close
+            serverNameInput.value = "";
+            modal.style.display = 'none';
+        };
+
+        // 3. Simple Chat Logic
         const input = document.getElementById('msg-input');
         const chatBox = document.getElementById('chat-box');
-        const channels = document.querySelectorAll('.channel-item');
-        const header = document.getElementById('current-channel');
-
-        // Handle Sending Messages
-        input.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && input.value.trim() !== "") {
-                const msg = document.createElement('div');
-                msg.className = 'message';
-                msg.innerHTML = `<strong>You:</strong> <span>${input.value}</span>`;
-                
-                chatBox.appendChild(msg);
+        input.onkeypress = (e) => {
+            if (e.key === 'Enter' && input.value !== "") {
+                const m = document.createElement('div');
+                m.style.marginBottom = "10px";
+                m.innerHTML = `<strong>You:</strong> <span style="color:#dcddde">${input.value}</span>`;
+                chatBox.appendChild(m);
                 input.value = "";
                 chatBox.scrollTop = chatBox.scrollHeight;
             }
-        });
-
-        // Handle Channel Switching
-        channels.forEach(chan => {
-            chan.addEventListener('click', () => {
-                // UI updates
-                document.querySelector('.channel-item.active').classList.remove('active');
-                chan.classList.add('active');
-                
-                // Update header and placeholder
-                const name = chan.getAttribute('data-channel');
-                header.innerText = `# ${name}`;
-                input.placeholder = `Message #${name}`;
-
-                // Clear chat for "switching" effect
-                chatBox.innerHTML = `<div class="message"><strong>System:</strong> <span>Switched to #${name}</span></div>`;
-            });
-        });
-
-        // Server Icon Feedback
-        document.querySelectorAll('.server-icon').forEach(icon => {
-            icon.addEventListener('click', () => {
-                if(icon.innerText !== "+") {
-                    document.querySelector('.server-icon.active').classList.remove('active');
-                    icon.classList.add('active');
-                }
-            });
-        });
+        };
     </script>
 </body>
 </html>
