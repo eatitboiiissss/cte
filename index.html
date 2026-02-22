@@ -4,34 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Discord UI Clone</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        /* All the CSS goes here now */
+        body, html {
+            margin: 0; padding: 0; height: 100%;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #36393f; color: white; overflow: hidden;
+        }
+        .app-container { display: flex; height: 100vh; }
+        .server-list {
+            width: 72px; background-color: #202225;
+            display: flex; flex-direction: column; align-items: center; padding-top: 12px;
+        }
+        .server-icon {
+            width: 48px; height: 48px; background-color: #36393f;
+            border-radius: 50%; margin-bottom: 8px; display: flex;
+            align-items: center; justify-content: center; cursor: pointer; transition: 0.2s;
+        }
+        .server-icon:hover { border-radius: 30%; background-color: #5865f2; }
+        .channel-list { width: 240px; background-color: #2f3136; display: flex; flex-direction: column; }
+        .server-header { padding: 15px; font-weight: bold; border-bottom: 1px solid #202225; }
+        .channel-item { padding: 8px 15px; color: #8e9297; cursor: pointer; }
+        .channel-item.active { background-color: #393c43; color: white; }
+        .chat-area { flex-grow: 1; display: flex; flex-direction: column; }
+        .chat-header { padding: 15px; font-weight: bold; border-bottom: 1px solid #26272b; }
+        .message-history { flex-grow: 1; padding: 20px; }
+        .input-container { padding: 20px; }
+        input {
+            width: 100%; padding: 12px; border-radius: 8px; border: none;
+            background-color: #40444b; color: white; outline: none;
+        }
+    </style>
 </head>
 <body>
     <div class="app-container">
         <nav class="server-list">
-            <div class="server-icon home">DM</div>
-            <hr>
+            <div class="server-icon" style="background-color: #5865f2;">D</div>
             <div class="server-icon">G</div>
             <div class="server-icon">JS</div>
-            <div class="server-icon plus">+</div>
         </nav>
-
         <aside class="channel-list">
             <header class="server-header">Project Workspace</header>
-            <div class="channels">
-                <div class="channel-item active"># general</div>
-                <div class="channel-item"># resources</div>
-                <div class="channel-item"># off-topic</div>
-            </div>
+            <div class="channel-item active"># general</div>
+            <div class="channel-item"># resources</div>
         </aside>
-
         <main class="chat-area">
             <header class="chat-header"># general</header>
             <div class="message-history">
-                <div class="message">
-                    <span class="user">Gemini:</span> 
-                    <span class="text">Welcome to the GitHub Pages clone!</span>
-                </div>
+                <p><strong>Gemini:</strong> Look at that, the CSS is working!</p>
             </div>
             <div class="input-container">
                 <input type="text" placeholder="Message #general">
