@@ -3,228 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pro Discord Clone</title>
+    <title>My Live Discord Server</title>
     <style>
         :root {
             --bg-dark: #1e1f22; --bg-medium: #2b2d31; --bg-light: #313338;
             --bg-modifier: #383a40; --text-muted: #949ba4;
-            --discord-blue: #5865f2; --discord-green: #23a559; --discord-red: #da373c;
+            --discord-blue: #5865f2; --discord-green: #23a559;
         }
-
-        body, html {
-            margin: 0; padding: 0; height: 100%;
-            font-family: 'gg sans', 'Helvetica Neue', Arial, sans-serif;
-            background-color: var(--bg-light); color: white; overflow: hidden;
-        }
-
+        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Helvetica Neue', Arial, sans-serif; background: var(--bg-light); color: white; overflow: hidden; }
         .app-container { display: flex; height: 100vh; }
-
-        /* SIDEBARS */
-        .server-list { width: 72px; background-color: var(--bg-dark); display: flex; flex-direction: column; align-items: center; padding-top: 12px; flex-shrink: 0; }
-        .server-icon { width: 48px; height: 48px; background-color: var(--bg-light); border-radius: 50%; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; font-weight: bold; position: relative;}
-        .server-icon:hover, .server-icon.active { border-radius: 30%; background-color: var(--discord-blue); }
         
-        .channel-list { width: 240px; background-color: var(--bg-medium); display: flex; flex-direction: column; position: relative; }
+        /* Sidebar */
+        .server-list { width: 72px; background: var(--bg-dark); display: flex; flex-direction: column; align-items: center; padding-top: 12px; flex-shrink: 0; }
+        .server-icon { width: 48px; height: 48px; background: var(--bg-light); border-radius: 50%; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; font-weight: bold; }
+        .server-icon:hover, .server-icon.active { border-radius: 30%; background: var(--discord-blue); }
+        .plus-btn { color: var(--discord-green); font-size: 24px; }
         
-        /* HEADER & DROPDOWN */
-        .server-header { padding: 12px 16px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: 0.2s; border-bottom: 1px solid rgba(0,0,0,0.2); }
-        .server-header:hover { background-color: rgba(255,255,255,0.05); }
-        
-        .dropdown-menu { position: absolute; top: 50px; left: 10px; width: 220px; background: #111214; border-radius: 4px; padding: 8px; display: none; flex-direction: column; z-index: 100; box-shadow: 0 8px 16px rgba(0,0,0,0.24); }
-        .dropdown-item { padding: 8px; border-radius: 2px; cursor: pointer; font-size: 14px; color: var(--text-muted); }
-        .dropdown-item:hover { background: var(--discord-blue); color: white; }
-        .dropdown-item.danger:hover { background: var(--discord-red); }
+        /* Channels */
+        .channel-list { width: 240px; background: var(--bg-medium); display: flex; flex-direction: column; }
+        .server-header { padding: 15px; font-weight: bold; border-bottom: 1px solid rgba(0,0,0,0.2); font-size: 16px; }
 
-        /* CHANNELS */
-        .channel-section { margin-top: 20px; padding: 0 8px; }
-        .section-label { font-size: 12px; font-weight: bold; color: var(--text-muted); text-transform: uppercase; display: flex; justify-content: space-between; padding: 0 8px; }
-        .channel-item { padding: 6px 8px; margin: 2px 0; border-radius: 4px; cursor: pointer; color: var(--text-muted); display: flex; align-items: center; }
-        .channel-item:hover, .channel-item.active { background: var(--bg-modifier); color: white; }
-        .channel-item::before { content: '#'; margin-right: 8px; font-size: 18px; color: var(--text-muted); }
-        .channel-item.voice::before { content: '🔊'; font-size: 14px; }
-
-        /* MAIN CHAT */
+        /* Chat Area */
         .chat-area { flex-grow: 1; display: flex; flex-direction: column; }
-        .chat-header { padding: 12px 16px; font-weight: bold; border-bottom: 1px solid rgba(0,0,0,0.2); }
-        .message-history { flex-grow: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
-        .input-box { padding: 16px; }
-        input[type="text"] { width: 100%; padding: 12px; border-radius: 8px; border: none; background: #383a40; color: white; outline: none; }
+        .chat-header { padding: 15px; font-weight: bold; border-bottom: 1px solid rgba(0,0,0,0.1); color: white; }
+        .chat-box { flex-grow: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+        .msg { background: rgba(255,255,255,0.02); padding: 8px; border-radius: 4px; }
+        .msg b { color: var(--discord-blue); margin-right: 8px; }
+        
+        .input-area { padding: 20px; background: var(--bg-light); }
+        input { width: 100%; padding: 12px; border-radius: 8px; border: none; background: #383a40; color: white; outline: none; box-sizing: border-box; }
 
-        /* MODALS */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; align-items: center; justify-content: center; z-index: 1000; }
-        .modal { background: var(--bg-light); padding: 24px; border-radius: 8px; width: 440px; }
-        .modal-btn { background: var(--discord-blue); color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; width: 100%; margin-top: 10px; }
-        select, input.modal-input { width: 100%; padding: 10px; margin: 10px 0; background: var(--bg-dark); color: white; border: 1px solid #111; border-radius: 4px; box-sizing: border-box;}
+        /* Modal */
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; z-index: 100; }
+        .modal-content { background: var(--bg-light); padding: 24px; border-radius: 8px; width: 320px; text-align: center; }
+        .modal-btn { margin-top: 15px; width: 100%; padding: 10px; background: var(--discord-blue); color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <div class="app-container">
     <nav class="server-list" id="server-nav">
-        <div class="server-icon active" data-name="Community Hub">CH</div>
-        <div class="server-icon" style="color: var(--discord-green)" onclick="showModal('server-modal')">+</div>
+        <div class="server-icon plus-btn" onclick="openModal()">+</div>
     </nav>
-
     <aside class="channel-list">
-        <div class="server-header" onclick="toggleDropdown()">
-            <span id="current-server-name">Community Hub</span>
-            <span>v</span>
-        </div>
-        
-        <div class="dropdown-menu" id="server-dropdown">
-            <div class="dropdown-item" onclick="showModal('channel-modal')">Create Channel</div>
-            <div class="dropdown-item" onclick="showModal('role-modal')">Server Settings (Roles)</div>
-            <div class="dropdown-item">Invite People</div>
-            <div class="dropdown-item danger">Leave Server</div>
-        </div>
-
-        <div class="channel-section">
-            <div class="section-label">Text Channels <span>+</span></div>
-            <div id="text-channels">
-                <div class="channel-item active">general</div>
-            </div>
-        </div>
-        <div class="channel-section">
-            <div class="section-label">Voice Channels <span>+</span></div>
-            <div id="voice-channels">
-                <div class="channel-item voice">Lounge</div>
-            </div>
-        </div>
+        <div class="server-header" id="active-server-name">Welcome</div>
+        <div style="padding: 10px; color: var(--text-muted); font-size: 14px;"># general</div>
     </aside>
-
     <main class="chat-area">
-        <div class="chat-header" id="chat-header-title"># general</div>
-        <div class="message-history" id="chat-box"></div>
-        <div class="input-box">
-            <input type="text" id="chat-input" placeholder="Message #general">
+        <div class="chat-header" id="chat-header"># select-a-server</div>
+        <div class="chat-box" id="chat-box"></div>
+        <div class="input-area">
+            <input type="text" id="chat-input" placeholder="Select a server to chat..." disabled>
         </div>
     </main>
 </div>
 
-<div class="modal-overlay" id="server-modal">
-    <div class="modal">
-        <h2>Create Server</h2>
-        <input class="modal-input" id="new-server-name" placeholder="Server Name (e.g. Gamers)">
+<div class="modal" id="modal">
+    <div class="modal-content">
+        <h3>Create New Server</h3>
+        <input type="text" id="new-server-name" placeholder="Server Name">
         <button class="modal-btn" onclick="createServer()">Create Server</button>
     </div>
 </div>
 
-<div class="modal-overlay" id="channel-modal">
-    <div class="modal">
-        <h2>Create Channel</h2>
-        <input class="modal-input" id="new-channel-name" placeholder="channel-name">
-        <select id="new-channel-type">
-            <option value="text">Text Channel</option>
-            <option value="voice">Voice Channel</option>
-        </select>
-        <button class="modal-btn" onclick="createChannel()">Create Channel</button>
-    </div>
-</div>
-
-<div class="modal-overlay" id="role-modal">
-    <div class="modal">
-        <h2>Role Permissions</h2>
-        <div style="text-align: left; font-size: 14px;">
-            <label><input type="checkbox" checked> Send Messages</label><br>
-            <label><input type="checkbox"> Manage Channels</label><br>
-            <label><input type="checkbox"> Kick Members</label>
-        </div>
-        <button class="modal-btn" onclick="closeModals()">Save Roles</button>
-    </div>
-</div>
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-    // --- STATE MANAGEMENT ---
-    let servers = JSON.parse(localStorage.getItem('discord_clone_data')) || [
-        { name: 'Community Hub', channels: [{name: 'general', type: 'text'}, {name: 'Lounge', type: 'voice'}] }
-    ];
-    let activeServerIndex = 0;
+    const SUPABASE_URL = 'https://febhrveozrhiwyjtiksz.supabase.co';
+    const SUPABASE_KEY = 'sb_secret_itqn0Ehpah6_IK20xmubiA_E39sASI3';
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // --- UI HELPERS ---
-    function toggleDropdown() {
-        const menu = document.getElementById('server-dropdown');
-        menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
+    let currentServerId = null;
+
+    // --- INITIALIZE ---
+    async function init() {
+        await loadServers();
+        subscribeToMessages();
     }
 
-    function showModal(id) {
-        document.getElementById(id).style.display = 'flex';
-        if(id === 'server-dropdown') toggleDropdown();
+    // --- SERVER LOGIC ---
+    async function loadServers() {
+        const { data } = await supabase.from('servers').select('*').order('created_at', {ascending: true});
+        const nav = document.getElementById('server-nav');
+        const plus = nav.querySelector('.plus-btn');
+        
+        // Clear icons except plus
+        nav.querySelectorAll('.server-icon:not(.plus-btn)').forEach(el => el.remove());
+        
+        data?.forEach(s => {
+            const icon = document.createElement('div');
+            icon.className = 'server-icon';
+            icon.innerText = s.name.substring(0,2).toUpperCase();
+            icon.onclick = () => selectServer(s);
+            nav.insertBefore(icon, plus);
+        });
     }
 
-    function closeModals() {
-        document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
+    async function createServer() {
+        const name = document.getElementById('new-server-name').value;
+        if (!name) return;
+        const { data } = await supabase.from('servers').insert([{ name }]).select();
+        closeModal();
+        loadServers();
     }
 
-    window.onclick = (e) => { 
-        if (e.target.classList.contains('modal-overlay')) closeModals();
-        if (!e.target.closest('.server-header')) document.getElementById('server-dropdown').style.display = 'none';
+    async function selectServer(server) {
+        currentServerId = server.id;
+        document.getElementById('active-server-name').innerText = server.name;
+        document.getElementById('chat-header').innerText = `# general`;
+        const input = document.getElementById('chat-input');
+        input.disabled = false;
+        input.placeholder = `Message ${server.name}`;
+        
+        // Load messages for this server
+        const { data } = await supabase.from('messages')
+            .select('*')
+            .eq('server_id', server.id)
+            .order('created_at', {ascending: true});
+        
+        const chatBox = document.getElementById('chat-box');
+        chatBox.innerHTML = '';
+        data?.forEach(msg => appendMessage(msg));
+    }
+
+    // --- CHAT LOGIC ---
+    function appendMessage(msg) {
+        const chatBox = document.getElementById('chat-box');
+        const div = document.createElement('div');
+        div.className = 'msg';
+        div.innerHTML = `<b>${msg.username}:</b> ${msg.content}`;
+        chatBox.appendChild(div);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    document.getElementById('chat-input').onkeypress = async (e) => {
+        if (e.key === 'Enter' && e.target.value && currentServerId) {
+            const text = e.target.value;
+            e.target.value = '';
+            await supabase.from('messages').insert([{
+                server_id: currentServerId,
+                username: 'Guest_' + Math.floor(Math.random()*1000),
+                content: text
+            }]);
+        }
     };
 
-    // --- LOGIC ---
-    function render() {
-        // Render Servers
-        const nav = document.getElementById('server-nav');
-        nav.innerHTML = '';
-        servers.forEach((s, i) => {
-            const icon = document.createElement('div');
-            icon.className = `server-icon ${i === activeServerIndex ? 'active' : ''}`;
-            icon.innerText = s.name.substring(0, 2).toUpperCase();
-            icon.onclick = () => { activeServerIndex = i; render(); };
-            nav.appendChild(icon);
-        });
-        nav.innerHTML += `<div class="server-icon" style="color: var(--discord-green)" onclick="showModal('server-modal')">+</div>`;
-
-        // Render Channels
-        const server = servers[activeServerIndex];
-        document.getElementById('current-server-name').innerText = server.name;
-        
-        const textContainer = document.getElementById('text-channels');
-        const voiceContainer = document.getElementById('voice-channels');
-        textContainer.innerHTML = ''; voiceContainer.innerHTML = '';
-
-        server.channels.forEach(ch => {
-            const item = document.createElement('div');
-            item.className = `channel-item ${ch.type === 'voice' ? 'voice' : ''}`;
-            item.innerText = ch.name;
-            item.onclick = () => {
-                document.getElementById('chat-header-title').innerText = (ch.type === 'text' ? '# ' : '🔊 ') + ch.name;
-                document.getElementById('chat-input').placeholder = `Message ${ch.name}`;
-            };
-            (ch.type === 'text' ? textContainer : voiceContainer).appendChild(item);
-        });
-
-        localStorage.setItem('discord_clone_data', JSON.stringify(servers));
+    function subscribeToMessages() {
+        supabase.channel('custom-all-channel')
+        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, payload => {
+            if (payload.new.server_id === currentServerId) {
+                appendMessage(payload.new);
+            }
+        }).subscribe();
     }
 
-    function createServer() {
-        const name = document.getElementById('new-server-name').value;
-        if(!name) return;
-        servers.push({ name, channels: [{name: 'general', type: 'text'}] });
-        activeServerIndex = servers.length - 1;
-        closeModals();
-        render();
-    }
+    // --- MODAL HELPERS ---
+    function openModal() { document.getElementById('modal').style.display = 'flex'; }
+    function closeModal() { document.getElementById('modal').style.display = 'none'; }
+    window.onclick = (e) => { if (e.target.id === 'modal') closeModal(); }
 
-    function createChannel() {
-        const name = document.getElementById('new-channel-name').value;
-        const type = document.getElementById('new-channel-type').value;
-        if(!name) return;
-        servers[activeServerIndex].channels.push({ name, type });
-        closeModals();
-        render();
-    }
-
-    // Initial Chat Mock
-    document.getElementById('chat-input').onkeypress = (e) => {
-        if(e.key === 'Enter' && e.target.value) {
-            const m = document.createElement('div');
-            m.innerHTML = `<strong>You:</strong> ${e.target.value}`;
-            document.getElementById('chat-box').appendChild(m);
-            e.target.value = '';
-        }
-    }
-
-    render();
+    init();
 </script>
 </body>
 </html>
