@@ -3,164 +3,199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Live Discord Server</title>
+    <title>Pro Live Discord Clone</title>
     <style>
         :root {
             --bg-dark: #1e1f22; --bg-medium: #2b2d31; --bg-light: #313338;
             --bg-modifier: #383a40; --text-muted: #949ba4;
-            --discord-blue: #5865f2; --discord-green: #23a559;
+            --discord-blue: #5865f2; --discord-green: #23a559; --discord-red: #da373c;
         }
-        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Helvetica Neue', Arial, sans-serif; background: var(--bg-light); color: white; overflow: hidden; }
+
+        body, html { margin: 0; padding: 0; height: 100%; font-family: 'gg sans', sans-serif; background: var(--bg-light); color: white; overflow: hidden; }
         .app-container { display: flex; height: 100vh; }
-        
-        /* Sidebar */
+
+        /* Sidebars */
         .server-list { width: 72px; background: var(--bg-dark); display: flex; flex-direction: column; align-items: center; padding-top: 12px; flex-shrink: 0; }
-        .server-icon { width: 48px; height: 48px; background: var(--bg-light); border-radius: 50%; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; font-weight: bold; }
+        .server-icon { width: 48px; height: 48px; background: var(--bg-light); border-radius: 50%; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; font-weight: bold; font-size: 14px; }
         .server-icon:hover, .server-icon.active { border-radius: 30%; background: var(--discord-blue); }
         .plus-btn { color: var(--discord-green); font-size: 24px; }
-        
-        /* Channels */
-        .channel-list { width: 240px; background: var(--bg-medium); display: flex; flex-direction: column; }
-        .server-header { padding: 15px; font-weight: bold; border-bottom: 1px solid rgba(0,0,0,0.2); font-size: 16px; }
 
-        /* Chat Area */
+        .channel-sidebar { width: 240px; background: var(--bg-medium); display: flex; flex-direction: column; position: relative; }
+        .server-header { padding: 12px 16px; font-weight: bold; border-bottom: 1px solid rgba(0,0,0,0.2); cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .server-header:hover { background: rgba(255,255,255,0.05); }
+
+        /* Dropdown Menu */
+        .dropdown { position: absolute; top: 50px; left: 10px; width: 220px; background: #111214; border-radius: 4px; padding: 8px; display: none; flex-direction: column; z-index: 100; box-shadow: 0 8px 16px rgba(0,0,0,0.5); }
+        .dropdown-item { padding: 8px; border-radius: 2px; cursor: pointer; font-size: 14px; color: var(--text-muted); }
+        .dropdown-item:hover { background: var(--discord-blue); color: white; }
+
+        /* Channel List */
+        .channel-section { padding: 10px 8px; }
+        .channel-label { font-size: 12px; font-weight: bold; color: var(--text-muted); text-transform: uppercase; margin-bottom: 5px; display: flex; justify-content: space-between; }
+        .channel-item { padding: 6px 10px; color: var(--text-muted); cursor: pointer; border-radius: 4px; display: flex; align-items: center; margin-bottom: 2px; }
+        .channel-item:hover, .channel-item.active { background: var(--bg-modifier); color: white; }
+        .channel-item::before { content: '#'; margin-right: 8px; font-size: 18px; }
+
+        /* Chat */
         .chat-area { flex-grow: 1; display: flex; flex-direction: column; }
-        .chat-header { padding: 15px; font-weight: bold; border-bottom: 1px solid rgba(0,0,0,0.1); color: white; }
-        .chat-box { flex-grow: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
-        .msg { background: rgba(255,255,255,0.02); padding: 8px; border-radius: 4px; }
-        .msg b { color: var(--discord-blue); margin-right: 8px; }
-        
-        .input-area { padding: 20px; background: var(--bg-light); }
-        input { width: 100%; padding: 12px; border-radius: 8px; border: none; background: #383a40; color: white; outline: none; box-sizing: border-box; }
+        .chat-box { flex-grow: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .msg { font-size: 15px; }
+        .msg b { color: #fff; margin-right: 8px; }
+        .input-area { padding: 20px; }
+        input[type="text"] { width: 100%; padding: 12px; border-radius: 8px; border: none; background: #383a40; color: white; outline: none; }
 
-        /* Modal */
-        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; z-index: 100; }
-        .modal-content { background: var(--bg-light); padding: 24px; border-radius: 8px; width: 320px; text-align: center; }
-        .modal-btn { margin-top: 15px; width: 100%; padding: 10px; background: var(--discord-blue); color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        /* Modals */
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; align-items: center; justify-content: center; z-index: 200; }
+        .modal-box { background: var(--bg-light); padding: 24px; border-radius: 8px; width: 350px; }
+        .modal-btn { width: 100%; padding: 10px; background: var(--discord-blue); color: white; border: none; border-radius: 4px; cursor: pointer; margin-top: 10px; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <div class="app-container">
     <nav class="server-list" id="server-nav">
-        <div class="server-icon plus-btn" onclick="openModal()">+</div>
+        <div class="server-icon plus-btn" onclick="openModal('server-modal')">+</div>
     </nav>
-    <aside class="channel-list">
-        <div class="server-header" id="active-server-name">Welcome</div>
-        <div style="padding: 10px; color: var(--text-muted); font-size: 14px;"># general</div>
+
+    <aside class="channel-sidebar">
+        <div class="server-header" onclick="toggleDropdown()">
+            <span id="header-server-name">Select Server</span>
+            <span>▼</span>
+        </div>
+        <div class="dropdown" id="dropdown">
+            <div class="dropdown-item" onclick="openModal('channel-modal')">Create Channel</div>
+            <div class="dropdown-item" onclick="openModal('role-modal')">Server Settings</div>
+            <div class="dropdown-item">Invite People</div>
+        </div>
+        <div class="channel-section">
+            <div class="channel-label">Text Channels <span onclick="openModal('channel-modal')" style="cursor:pointer">+</span></div>
+            <div id="channel-container"></div>
+        </div>
     </aside>
+
     <main class="chat-area">
-        <div class="chat-header" id="chat-header"># select-a-server</div>
         <div class="chat-box" id="chat-box"></div>
         <div class="input-area">
-            <input type="text" id="chat-input" placeholder="Select a server to chat..." disabled>
+            <input type="text" id="chat-input" placeholder="Message..." disabled>
         </div>
     </main>
 </div>
 
-<div class="modal" id="modal">
-    <div class="modal-content">
-        <h3>Create New Server</h3>
-        <input type="text" id="new-server-name" placeholder="Server Name">
-        <button class="modal-btn" onclick="createServer()">Create Server</button>
-    </div>
-</div>
+<div class="modal" id="server-modal"><div class="modal-box"><h3>Create Server</h3><input type="text" id="s-name" placeholder="Name"><button class="modal-btn" onclick="dbCreateServer()">Create</button></div></div>
+<div class="modal" id="channel-modal"><div class="modal-box"><h3>Create Channel</h3><input type="text" id="c-name" placeholder="channel-name"><button class="modal-btn" onclick="dbCreateChannel()">Create</button></div></div>
+<div class="modal" id="role-modal"><div class="modal-box"><h3>Roles & Permissions</h3><p style="color:var(--text-muted)">Manage server roles here.</p><button class="modal-btn" onclick="closeModals()">Save</button></div></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-    const SUPABASE_URL = 'https://febhrveozrhiwyjtiksz.supabase.co';
-    const SUPABASE_KEY = 'sb_secret_itqn0Ehpah6_IK20xmubiA_E39sASI3';
-    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    const supabase = supabase.createClient('https://febhrveozrhiwyjtiksz.supabase.co', 'sb_secret_itqn0Ehpah6_IK20xmubiA_E39sASI3');
+    let activeServer = null;
+    let activeChannel = null;
 
-    let currentServerId = null;
-
-    // --- INITIALIZE ---
     async function init() {
         await loadServers();
-        subscribeToMessages();
+        subscribeUpdates();
     }
 
-    // --- SERVER LOGIC ---
+    // SERVER LOGIC
     async function loadServers() {
-        const { data } = await supabase.from('servers').select('*').order('created_at', {ascending: true});
+        const { data } = await supabase.from('servers').select('*').order('created_at');
         const nav = document.getElementById('server-nav');
-        const plus = nav.querySelector('.plus-btn');
-        
-        // Clear icons except plus
-        nav.querySelectorAll('.server-icon:not(.plus-btn)').forEach(el => el.remove());
-        
+        nav.querySelectorAll('.server-icon:not(.plus-btn)').forEach(n => n.remove());
         data?.forEach(s => {
-            const icon = document.createElement('div');
-            icon.className = 'server-icon';
-            icon.innerText = s.name.substring(0,2).toUpperCase();
-            icon.onclick = () => selectServer(s);
-            nav.insertBefore(icon, plus);
+            const el = document.createElement('div');
+            el.className = 'server-icon';
+            el.innerText = s.name.substring(0,2).toUpperCase();
+            el.onclick = () => selectServer(s);
+            nav.insertBefore(el, nav.querySelector('.plus-btn'));
         });
     }
 
-    async function createServer() {
-        const name = document.getElementById('new-server-name').value;
-        if (!name) return;
+    async function dbCreateServer() {
+        const name = document.getElementById('s-name').value;
         const { data } = await supabase.from('servers').insert([{ name }]).select();
-        closeModal();
-        loadServers();
+        if(data) {
+            // Auto-create a general channel for new server
+            await supabase.from('channels').insert([{ server_id: data[0].id, name: 'general' }]);
+            loadServers(); closeModals();
+        }
     }
 
     async function selectServer(server) {
-        currentServerId = server.id;
-        document.getElementById('active-server-name').innerText = server.name;
-        document.getElementById('chat-header').innerText = `# general`;
-        const input = document.getElementById('chat-input');
-        input.disabled = false;
-        input.placeholder = `Message ${server.name}`;
-        
-        // Load messages for this server
-        const { data } = await supabase.from('messages')
-            .select('*')
-            .eq('server_id', server.id)
-            .order('created_at', {ascending: true});
-        
-        const chatBox = document.getElementById('chat-box');
-        chatBox.innerHTML = '';
-        data?.forEach(msg => appendMessage(msg));
+        activeServer = server;
+        document.getElementById('header-server-name').innerText = server.name;
+        loadChannels(server.id);
     }
 
-    // --- CHAT LOGIC ---
-    function appendMessage(msg) {
-        const chatBox = document.getElementById('chat-box');
+    // CHANNEL LOGIC
+    async function loadChannels(sid) {
+        const { data } = await supabase.from('channels').select('*').eq('server_id', sid);
+        const cont = document.getElementById('channel-container');
+        cont.innerHTML = '';
+        data?.forEach(ch => {
+            const el = document.createElement('div');
+            el.className = 'channel-item';
+            el.innerText = ch.name;
+            el.onclick = () => selectChannel(ch);
+            cont.appendChild(el);
+        });
+    }
+
+    async function dbCreateChannel() {
+        if(!activeServer) return;
+        const name = document.getElementById('c-name').value;
+        await supabase.from('channels').insert([{ server_id: activeServer.id, name }]);
+        loadChannels(activeServer.id); closeModals();
+    }
+
+    async function selectChannel(channel) {
+        activeChannel = channel;
+        document.querySelectorAll('.channel-item').forEach(i => i.classList.remove('active'));
+        document.getElementById('chat-input').disabled = false;
+        document.getElementById('chat-input').placeholder = `Message #${channel.name}`;
+        loadMessages(channel.id);
+    }
+
+    // CHAT LOGIC
+    async function loadMessages(cid) {
+        const { data } = await supabase.from('messages').select('*').eq('channel_id', cid).order('created_at');
+        const box = document.getElementById('chat-box');
+        box.innerHTML = '';
+        data?.forEach(m => appendMsg(m));
+    }
+
+    function appendMsg(m) {
+        const box = document.getElementById('chat-box');
         const div = document.createElement('div');
         div.className = 'msg';
-        div.innerHTML = `<b>${msg.username}:</b> ${msg.content}`;
-        chatBox.appendChild(div);
-        chatBox.scrollTop = chatBox.scrollHeight;
+        div.innerHTML = `<b>${m.username}:</b> ${m.content}`;
+        box.appendChild(div);
+        box.scrollTop = box.scrollHeight;
     }
 
     document.getElementById('chat-input').onkeypress = async (e) => {
-        if (e.key === 'Enter' && e.target.value && currentServerId) {
-            const text = e.target.value;
-            e.target.value = '';
-            await supabase.from('messages').insert([{
-                server_id: currentServerId,
-                username: 'Guest_' + Math.floor(Math.random()*1000),
-                content: text
+        if(e.key === 'Enter' && e.target.value && activeChannel) {
+            const content = e.target.value; e.target.value = '';
+            await supabase.from('messages').insert([{ 
+                channel_id: activeChannel.id, 
+                username: 'Admin', 
+                content,
+                server_id: activeServer.id 
             }]);
         }
-    };
+    }
 
-    function subscribeToMessages() {
-        supabase.channel('custom-all-channel')
-        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, payload => {
-            if (payload.new.server_id === currentServerId) {
-                appendMessage(payload.new);
-            }
+    // REALTIME
+    function subscribeUpdates() {
+        supabase.channel('room2').on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, p => {
+            if(activeChannel && p.new.channel_id === activeChannel.id) appendMsg(p.new);
         }).subscribe();
     }
 
-    // --- MODAL HELPERS ---
-    function openModal() { document.getElementById('modal').style.display = 'flex'; }
-    function closeModal() { document.getElementById('modal').style.display = 'none'; }
-    window.onclick = (e) => { if (e.target.id === 'modal') closeModal(); }
-
+    // UI HELPERS
+    function toggleDropdown() { const d = document.getElementById('dropdown'); d.style.display = d.style.display === 'flex' ? 'none' : 'flex'; }
+    function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+    function closeModals() { document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); }
+    
     init();
 </script>
 </body>
