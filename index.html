@@ -5,58 +5,171 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Discord UI Clone</title>
     <style>
-        /* All the CSS goes here now */
+        /* CSS - The Design */
+        :root {
+            --bg-dark: #202225;
+            --bg-medium: #2f3136;
+            --bg-light: #36393f;
+            --text-muted: #8e9297;
+            --discord-blue: #5865f2;
+        }
+
         body, html {
             margin: 0; padding: 0; height: 100%;
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            background-color: #36393f; color: white; overflow: hidden;
+            background-color: var(--bg-light); color: white; overflow: hidden;
         }
+
         .app-container { display: flex; height: 100vh; }
+
+        /* Left Sidebar: Servers */
         .server-list {
-            width: 72px; background-color: #202225;
+            width: 72px; background-color: var(--bg-dark);
             display: flex; flex-direction: column; align-items: center; padding-top: 12px;
+            flex-shrink: 0;
         }
+
         .server-icon {
-            width: 48px; height: 48px; background-color: #36393f;
+            width: 48px; height: 48px; background-color: var(--bg-light);
             border-radius: 50%; margin-bottom: 8px; display: flex;
-            align-items: center; justify-content: center; cursor: pointer; transition: 0.2s;
+            align-items: center; justify-content: center; cursor: pointer; 
+            transition: all 0.2s ease; font-weight: bold;
         }
-        .server-icon:hover { border-radius: 30%; background-color: #5865f2; }
-        .channel-list { width: 240px; background-color: #2f3136; display: flex; flex-direction: column; }
-        .server-header { padding: 15px; font-weight: bold; border-bottom: 1px solid #202225; }
-        .channel-item { padding: 8px 15px; color: #8e9297; cursor: pointer; }
+
+        .server-icon:hover { border-radius: 30%; background-color: var(--discord-blue); }
+        .server-icon.active { border-radius: 30%; background-color: var(--discord-blue); }
+
+        /* Middle Sidebar: Channels */
+        .channel-list {
+            width: 240px; background-color: var(--bg-medium);
+            display: flex; flex-direction: column; flex-shrink: 0;
+        }
+
+        .server-header {
+            padding: 15px; font-weight: bold; font-size: 16px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.5); z-index: 2;
+        }
+
+        .channels-container { padding: 10px 8px; flex-grow: 1; }
+
+        .channel-item {
+            padding: 8px 10px; color: var(--text-muted); cursor: pointer;
+            border-radius: 4px; margin-bottom: 2px; transition: 0.1s;
+        }
+
+        .channel-item:hover { background-color: #393c43; color: #dcddde; }
         .channel-item.active { background-color: #393c43; color: white; }
+        .channel-item::before { content: "# "; font-size: 1.2em; color: var(--text-muted); }
+
+        /* Main Area: Chat */
         .chat-area { flex-grow: 1; display: flex; flex-direction: column; }
-        .chat-header { padding: 15px; font-weight: bold; border-bottom: 1px solid #26272b; }
-        .message-history { flex-grow: 1; padding: 20px; }
-        .input-container { padding: 20px; }
+
+        .chat-header {
+            padding: 15px; font-weight: bold; border-bottom: 1px solid #26272b;
+            display: flex; align-items: center;
+        }
+
+        .message-history {
+            flex-grow: 1; padding: 20px; overflow-y: auto;
+            display: flex; flex-direction: column; justify-content: flex-end;
+        }
+
+        .message { margin-bottom: 15px; animation: fadeIn 0.3s ease; }
+        .message strong { color: #fff; margin-right: 8px; }
+        .message span { color: #dcddde; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        .input-container { padding: 20px; background-color: var(--bg-light); }
+        
         input {
             width: 100%; padding: 12px; border-radius: 8px; border: none;
-            background-color: #40444b; color: white; outline: none;
+            background-color: #40444b; color: white; outline: none; box-sizing: border-box;
         }
+
+        hr { border: 0; border-top: 2px solid #36393f; width: 32px; margin: 4px 0 8px 0; }
     </style>
 </head>
 <body>
+
     <div class="app-container">
         <nav class="server-list">
-            <div class="server-icon" style="background-color: #5865f2;">D</div>
-            <div class="server-icon">G</div>
-            <div class="server-icon">JS</div>
+            <div class="server-icon active" title="Home">H</div>
+            <hr>
+            <div class="server-icon" title="JavaScript">JS</div>
+            <div class="server-icon" title="GitHub Project">GH</div>
+            <div class="server-icon" style="color: #3ba55c;">+</div>
         </nav>
+
         <aside class="channel-list">
             <header class="server-header">Project Workspace</header>
-            <div class="channel-item active"># general</div>
-            <div class="channel-item"># resources</div>
-        </aside>
-        <main class="chat-area">
-            <header class="chat-header"># general</header>
-            <div class="message-history">
-                <p><strong>Gemini:</strong> Look at that, the CSS is working!</p>
+            <div class="channels-container">
+                <div class="channel-item active" data-channel="general">general</div>
+                <div class="channel-item" data-channel="resources">resources</div>
+                <div class="channel-item" data-channel="off-topic">off-topic</div>
             </div>
+        </aside>
+
+        <main class="chat-area">
+            <header class="chat-header" id="current-channel"># general</header>
+            
+            <div class="message-history" id="chat-box">
+                <div class="message">
+                    <strong>System:</strong> <span>Welcome to the workspace! Type a message below.</span>
+                </div>
+            </div>
+
             <div class="input-container">
-                <input type="text" placeholder="Message #general">
+                <input type="text" id="msg-input" placeholder="Message #general">
             </div>
         </main>
     </div>
+
+    <script>
+        const input = document.getElementById('msg-input');
+        const chatBox = document.getElementById('chat-box');
+        const channels = document.querySelectorAll('.channel-item');
+        const header = document.getElementById('current-channel');
+
+        // Handle Sending Messages
+        input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && input.value.trim() !== "") {
+                const msg = document.createElement('div');
+                msg.className = 'message';
+                msg.innerHTML = `<strong>You:</strong> <span>${input.value}</span>`;
+                
+                chatBox.appendChild(msg);
+                input.value = "";
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+        });
+
+        // Handle Channel Switching
+        channels.forEach(chan => {
+            chan.addEventListener('click', () => {
+                // UI updates
+                document.querySelector('.channel-item.active').classList.remove('active');
+                chan.classList.add('active');
+                
+                // Update header and placeholder
+                const name = chan.getAttribute('data-channel');
+                header.innerText = `# ${name}`;
+                input.placeholder = `Message #${name}`;
+
+                // Clear chat for "switching" effect
+                chatBox.innerHTML = `<div class="message"><strong>System:</strong> <span>Switched to #${name}</span></div>`;
+            });
+        });
+
+        // Server Icon Feedback
+        document.querySelectorAll('.server-icon').forEach(icon => {
+            icon.addEventListener('click', () => {
+                if(icon.innerText !== "+") {
+                    document.querySelector('.server-icon.active').classList.remove('active');
+                    icon.classList.add('active');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
