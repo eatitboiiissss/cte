@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Node.js Live Discord</title>
+    <style>
+        :root { --bg1: #1e1f22; --bg2: #2b2d31; --bg3: #313338; --blue: #5865f2; --green: #23a559; }
+        body { margin: 0; display: flex; height: 100vh; font-family: sans-serif; background: var(--bg3); color: white; overflow: hidden; }
+        
+        /* Sidebars */
+        #s-sidebar { width: 72px; background: var(--bg1); display: flex; flex-direction: column; align-items: center; padding-top: 12px; flex-shrink: 0; }
+        #c-sidebar { width: 240px; background: var(--bg2); display: flex; flex-direction: column; }
+        
+        .icon { width: 48px; height: 48px; background: var(--bg3); border-radius: 50%; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; font-weight: bold; }
+        .icon:hover, .icon.active { border-radius: 30%; background: var(--blue); }
+        
+        /* Chat */
+        #main-chat { flex-grow: 1; display: flex; flex-direction: column; }
+        #msg-history { flex-grow: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+        .msg-input-area { padding: 20px; }
+        input { width: 100%; padding: 12px; border-radius: 8px; border: none; background: #383a40; color: white; outline: none; box-sizing: border-box; }
+        
+        .channel-item { padding: 8px 16px; color: #949ba4; cursor: pointer; }
+        .channel-item:hover { background: #393c43; color: white; }
+    </style>
+</head>
+<body>
+
+    <nav id="s-sidebar">
+        <div class="icon" style="color:var(--green)" onclick="createNewServer()">+</div>
+    </nav>
+
+    <aside id="c-sidebar">
+        <div style="padding:15px; font-weight:bold; border-bottom: 1px solid #111" id="active-s-name">Discord</div>
+        <div id="c-list" style="padding-top:10px"></div>
+    </aside>
+
+    <main id="main-chat">
+        <div id="msg-history"></div>
+        <div class="msg-input-area">
+            <input type="text" id="chat-in" placeholder="Select a server to start...">
+        </div>
+    </main>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        let currentServerId = null;
+        let myUsername = "User_" + Math.floor(Math.random() * 1000);
+
+        // Receive Servers
+        socket.on('init', (servers) => renderServers(servers));
+        socket.on('server-list-updated', (servers) => renderServers(servers));
+
+        // Receive Messages
+        socket.on('new-message', (data) => {
+            if (data.serverId === currentServerId) {
+                appendMessage(data);
+            }
+        });
+
+        function renderServers(servers) {
+            const sidebar = document.getElementById('s-sidebar');
+            const plus = sidebar.querySelector('[onclick]');
+            sidebar.querySelectorAll('.icon:not([onclick])').forEach(n => n.remove());
+            
+            servers.forEach(s => {
+                const div = document.createElement('div');
+                div.className = 'icon' + (s.id === currentServerId ? ' active' : '');
+                div.innerText = s.name.substring(0,2).toUpperCase();
+                div.onclick = () => selectServer(s);
+                sidebar.insertBefore(div, plus);
+            });
+        }
+
+        function createNewServer() {
+            const name = prompt("Enter Server Name:");
+            if (name) socket.emit('create-server', name);
+        }
+
+        function selectServer(server) {
+            currentServerId = server.id;
+            document.getElementById('active-s-name').innerText = server.name;
+            document.getElementById('chat-in').placeholder = `Message #${server.name}`;
+            document.getElementById('msg-history').innerHTML = `<div style="color:grey">Welcome to ${server.name}</div>`;
+            renderServers([]); // Refresh active state visually
+        }
+
+        function appendMessage(data) {
+            const history = document.getElementById('msg-history');
+            const div = document.createElement('div');
+            div.innerHTML = `<b>${data.user}:</b> ${data.text}`;
+            history.appendChild(div);
+            history.scrollTop = history.scrollHeight;
+        }
+
+        document.getElementById('chat-in').onkeypress = (e) => {
+            if (e.key === 'Enter' && e.target.value && currentServerId) {
+                socket.emit('send-chat', {
+                    serverId: currentServerId,
+                    user: myUsername,
+                    text: e.target.value
+                });
+                e.target.value = '';
+            }
+        };
+    </script>
+</body>
+</html>
