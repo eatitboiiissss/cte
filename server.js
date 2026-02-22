@@ -4,48 +4,47 @@ const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const path = require('path');
 
-// Serve your HTML files from the "public" folder
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
-// This is the server's memory. 
-// Note: If the server restarts on Render, this resets unless you use a Database.
-let state = {
-    servers: [
-        { id: '1', name: 'Home', channels: ['general', 'lounge'] }
-    ]
+// Mock Database (In a real app, use MongoDB)
+let serverData = {
+    channels: [
+        { id: 'c1', name: 'announcements', type: 'announcement', followedBy: [] },
+        { id: 'c2', name: 'general', type: 'text' },
+        { id: 'c3', name: 'dev-forum', type: 'forum', threads: [] }
+    ],
+    roles: [
+        { name: 'Admin', permissions: ['MANAGE_CHANNELS', 'MODERATE'], color: '#ed4245' },
+        { name: 'Member', permissions: ['SEND_MESSAGES'], color: '#9ba44d' }
+    ],
+    analytics: { joins: 0, messagesSent: 0 }
 };
 
 io.on('connection', (socket) => {
-    console.log('A user connected:', socket.id);
-
-    // 1. Send current servers to the new user
-    socket.emit('init', state.servers);
-
-    // 2. Handle Creating a Server
-    socket.on('create-server', (serverName) => {
-        const newServer = {
-            id: Date.now().toString(),
-            name: serverName,
-            channels: ['general']
-        };
-        state.servers.push(newServer);
-        // Tell EVERYONE a new server was created
-        io.emit('server-list-updated', state.servers);
+    // Community Onboarding Logic
+    serverData.analytics.joins++;
+    socket.emit('onboarding-start', {
+        welcomeMsg: "Welcome! Agree to the rules to continue.",
+        rules: ["Be kind", "No spam"]
     });
 
-    // 3. Handle Chat Messages
+    // Handle Polls
+    socket.on('create-poll', (pollData) => {
+        // pollData = { question: "Pizza?", options: ["Yes", "No"] }
+        io.emit('new-poll', pollData);
+    });
+
+    // Handle Announcement Broadcasting
+    socket.on('broadcast', (msg) => {
+        // Sends to this server AND "followed" servers
+        io.emit('announcement-received', msg);
+    });
+
     socket.on('send-chat', (data) => {
-        // data = { serverId, channel, user, text }
-        // We broadcast it to everyone
+        serverData.analytics.messagesSent++;
         io.emit('new-message', data);
-    });
-
-    socket.on('disconnect', () => {
-        console.log('User disconnected');
     });
 });
 
 const PORT = process.env.PORT || 3000;
-http.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server is live at http://localhost:${PORT}`);
-});
+http.listen(PORT, '0.0.0.0', () => console.log(`Server running on port ${PORT}`));
